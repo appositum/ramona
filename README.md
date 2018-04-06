@@ -1,8 +1,8 @@
 # Ramona
-### You're not alone. You're just having some idiotic dream.
+American expatriate ninja courier (age unknown)
 
-## Installation
-Make sure to have the `TOKEN` variable set inside `.env`.
+### Installation
+Make sure to have the `TOKEN` environment variable set.
 
 ```bash
 git clone https://github.com/appositum/ramona.git
