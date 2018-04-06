@@ -44,10 +44,10 @@ defmodule Ramona.Commands.Moderation do
       {"Process Memory", mem_format.(memories[:processes], :mb)},
       {"Memory Usage", mem_format.(memories[:total], :mb)},
       {"Code Memory", mem_format.(memories[:code], :mb)},
-      {"IO Input", mem_format.(io_input, :mb)},
-      {"IO Output", mem_format.(io_output, :mb)},
       {"ETS Memory", mem_format.(memories[:ets], :kb)},
-      {"Atom Memory", mem_format.(memories[:atom], :kb)}
+      {"Atom Memory", mem_format.(memories[:atom], :kb)},
+      {"IO Input", mem_format.(io_input, :mb)},
+      {"IO Output", mem_format.(io_output, :mb)}
     ]
 
     Enum.reduce(infos, %Embed{color: @random_color}, fn {n, v}, embed ->
