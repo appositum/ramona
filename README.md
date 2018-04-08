@@ -1,5 +1,5 @@
 # Ramona
-American expatriate ninja courier (age unknown)
+You're not alone. You're just having some idiotic dream.
 
 ### Installation
 Make sure to have the `TOKEN` environment variable set.
