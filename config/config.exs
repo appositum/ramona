@@ -18,5 +18,5 @@ config :ramona,
     {0xF5865B, "orange"},     # vol. 4
     {0x009CCF, "light_blue"}, # vol. 5
     {0x3C9790, "green"},      # vol. 6
-    {0xFCEDEA, "light_pink"}  # vol. 6
+    {0xEB90BC, "light_pink"}  # vol. 6
   ]
