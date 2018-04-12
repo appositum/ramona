@@ -61,6 +61,7 @@ defmodule Ramona.Commands.Moderation do
 
   Cogs.def change_profile do
     :ok = Profile.update_file()
+    {:ok, response} = Client.send_message(message.channel_id, "Processing...")
 
     case Client.edit_profile(avatar: Profile.avatar()) do
       {:ok, user} ->
@@ -75,11 +76,12 @@ defmodule Ramona.Commands.Moderation do
         {:ok, new_role} = Client.create_role(guild_id, name: ".", color: Profile.color())
         {:ok, nil} = Client.add_role(guild_id, user.id, new_role.id)
 
-        Cogs.say("Profile successfully changed!")
+        Client.edit_message(response, "Profile successfully changed!")
 
       {:error, reason} ->
         Logger.error("Could not change client's profile: #{inspect(reason)}")
-        Cogs.say(":exclamation: **Profile couldn't be changed! Please check the logs.**")
+        msg = ":exclamation: **Profile couldn't be changed! Please check the logs.**"
+        Client.edit_message(response, msg)
     end
   end
 
