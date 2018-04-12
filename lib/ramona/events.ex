@@ -7,10 +7,8 @@ defmodule Ramona.Events do
 
   Events.on_ready(:ready)
   def ready(_, _) do
-    Profile.update_file()
-
     Task.start fn ->
-      case Client.edit_profile(avatar: Profile.update_avatar()) do
+      case Client.edit_profile(avatar: Profile.avatar()) do
         {:ok, new_user} ->
           Logger.info("Client avatar successfully changed\nNew user: #{inspect(new_user)}")
 
