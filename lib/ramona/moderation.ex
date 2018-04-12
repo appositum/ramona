@@ -80,8 +80,11 @@ defmodule Ramona.Commands.Moderation do
 
       {:error, reason} ->
         Logger.error("Could not change client's profile: #{inspect(reason)}")
-        msg = ":exclamation: **Profile couldn't be changed! Please check the logs.**"
-        Client.edit_message(response, msg)
+        [msg] = reason
+        |> Poison.decode!()
+        |> Map.get("avatar")
+
+        Client.edit_message(response, ":exclamation: **#{msg}**")
     end
   end
 
