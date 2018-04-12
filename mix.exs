@@ -22,7 +22,7 @@ defmodule Ramona.MixProject do
     [
       {:css_colors, "~> 0.2.0"},
       {:mogrify_draw, "~> 0.1.0"},
-      {:alchemy, "~> 0.6.0", hex: :discord_alchemy}
+      {:alchemy, github: "appositum/alchemy"}
     ]
   end
 end
