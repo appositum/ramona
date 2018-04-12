@@ -1,18 +1,17 @@
 defmodule Ramona.Commands.Moderation do
   @moduledoc false
   use Alchemy.Cogs
-  alias Ramona.Utils
-  alias Alchemy.{Cache, Client, User}
+  alias Alchemy.Client
+  alias Ramona.{Profile, Utils}
+  require Logger
   require Alchemy.Embed, as: Embed
-
-  @random_color 0x01B6AD
 
   Cogs.def help do
     commands = Cogs.all_commands()
     |> Map.keys()
     |> Enum.join("\n")
 
-    %Embed{color: @random_color, description: commands}
+    %Embed{color: Profile.color(), description: commands}
     |> Embed.title("All available commands")
     |> Embed.send()
   end
@@ -44,20 +43,49 @@ defmodule Ramona.Commands.Moderation do
       {"Process Memory", mem_format.(memories[:processes], :mb)},
       {"Memory Usage", mem_format.(memories[:total], :mb)},
       {"Code Memory", mem_format.(memories[:code], :mb)},
-      {"IO Input", mem_format.(io_input, :mb)},
-      {"IO Output", mem_format.(io_output, :mb)},
       {"ETS Memory", mem_format.(memories[:ets], :kb)},
-      {"Atom Memory", mem_format.(memories[:atom], :kb)}
+      {"Atom Memory", mem_format.(memories[:atom], :kb)},
+      {"IO Input", mem_format.(io_input, :mb)},
+      {"IO Output", mem_format.(io_output, :mb)}
     ]
 
-    Enum.reduce(infos, %Embed{color: @random_color}, fn {n, v}, embed ->
+    Enum.reduce(infos, %Embed{color: Profile.color()}, fn {n, v}, embed ->
       Embed.field(embed, n, v, inline: true)
     end)
     |> Embed.title("Ramona")
-    |> Embed.thumbnail(User.avatar_url(Cache.user) |> String.replace("jpg", "png"))
+    |> Embed.thumbnail("https://i.pinimg.com/474x/38/20/b5/3820b57c4e29ee5006fdc25974fae98f.jpg")
     |> Embed.url("https://github.com/appositum/ramona")
     |> Embed.footer(text: "Uptime: #{Utils.uptime()}")
     |> Embed.send()
+  end
+
+  Cogs.def change_profile do
+    :ok = Profile.update_file()
+    {:ok, response} = Client.send_message(message.channel_id, "Processing...")
+
+    case Client.edit_profile(avatar: Profile.avatar()) do
+      {:ok, user} ->
+        {:ok, guild_id} = Cogs.guild_id()
+        {:ok, roles} = Client.get_roles(guild_id)
+
+        dot_roles = Enum.filter(roles, & &1.name == ".")
+        for r <- dot_roles do
+          {:ok, nil} = Client.delete_role(guild_id, r.id)
+        end
+
+        {:ok, new_role} = Client.create_role(guild_id, name: ".", color: Profile.color())
+        {:ok, nil} = Client.add_role(guild_id, user.id, new_role.id)
+
+        Client.edit_message(response, "Profile successfully changed!")
+
+      {:error, reason} ->
+        Logger.error("Could not change client's profile: #{inspect(reason)}")
+        [msg] = reason
+        |> Poison.decode!()
+        |> Map.get("avatar")
+
+        Client.edit_message(response, ":exclamation: **#{msg}**")
+    end
   end
 
   # TODO

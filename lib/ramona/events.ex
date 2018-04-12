@@ -1,7 +1,8 @@
 defmodule Ramona.Events do
   @moduledoc false
   use Alchemy.Events
-  alias Alchemy.{Cache, Cogs}
+  alias Ramona.Profile
+  alias Alchemy.{Cache, Client, Cogs}
   require Logger
 
   Events.on_ready(:ready)
