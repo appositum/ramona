@@ -1,4 +1,7 @@
 defmodule Ramona.Utils do
+  @moduledoc """
+  Collection of functions to serve as tools for some Cogs.
+  """
   require Alchemy.Embed, as: Embed
 
   def uptime do
@@ -50,7 +53,7 @@ defmodule Ramona.Utils do
     %Mogrify.Image{path: "color.jpg", ext: "jpg"}
     |> Mogrify.custom("size", "80x80")
     |> Mogrify.canvas(to_string(color))
-    |> Mogrify.create(path: "./lib/assets/")
+    |> Mogrify.create(path: "lib/assets/")
 
     # Remove "#" symbol
     color_hex =
