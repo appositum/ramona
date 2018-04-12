@@ -3,6 +3,7 @@ defmodule Ramona.Commands.Moderation do
   use Alchemy.Cogs
   alias Alchemy.Client
   alias Ramona.{Profile, Utils}
+  require Logger
   require Alchemy.Embed, as: Embed
 
   Cogs.def help do
@@ -56,6 +57,26 @@ defmodule Ramona.Commands.Moderation do
     |> Embed.url("https://github.com/appositum/ramona")
     |> Embed.footer(text: "Uptime: #{Utils.uptime()}")
     |> Embed.send()
+  end
+
+  Cogs.def change_profile do
+    :ok = Profile.update_file()
+
+    case Client.edit_profile(avatar: Profile.avatar()) do
+      {:ok, user} ->
+        {:ok, guild_id} = Cogs.guild_id()
+        {:ok, roles} = Client.get_roles(guild_id)
+
+        role = Enum.find(roles, &match?("Ramona", &1.name))
+        {:ok, new_role} = Client.create_role(guild_id, name: ".", color: Profile.color())
+        {:ok, _} = Client.add_role(guild_id, user.id, new_role.id)
+
+        Cogs.say("Profile successfully changed!")
+
+      {:error, reason} ->
+        Logger.error("Could not change client's profile: #{inspect(reason)}")
+        Cogs.say(":exclamation: **Profile couldn't be changed! Please check the logs.**")
+    end
   end
 
   # TODO
