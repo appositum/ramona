@@ -53,7 +53,7 @@ defmodule Ramona.Utils do
     %Mogrify.Image{path: "color.jpg", ext: "jpg"}
     |> Mogrify.custom("size", "80x80")
     |> Mogrify.canvas(to_string(color))
-    |> Mogrify.create(path: "lib/assets/")
+    |> Mogrify.create(path: "lib/ramona/assets/")
 
     # Remove "#" symbol
     color_hex =

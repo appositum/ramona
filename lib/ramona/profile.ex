@@ -3,8 +3,8 @@ defmodule Ramona.Profile do
   Update the bot's profile picture and colors used on embedded messages and its own role.
   """
 
-  @colors_path "lib/assets/colors/"
-  @profile_path "lib/assets/.profile.json"
+  @colors_path "lib/ramona/assets/colors/"
+  @profile_path "lib/ramona/assets/.profile.json"
   @github "https://raw.githubusercontent.com/appositum/ramona/master/"
   @colors Application.fetch_env!(:ramona, :colors)
 

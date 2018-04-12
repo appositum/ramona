@@ -9,9 +9,9 @@ defmodule Ramona.Commands.Random do
   Cogs.def color do
     "#" <> Utils.color_random()
     |> Utils.color_embed()
-    |> Embed.send("", file: "lib/assets/color.jpg")
+    |> Embed.send("", file: "lib/ramona/assets/color.jpg")
 
-    File.rm("lib/assets/color.jpg")
+    File.rm("lib/ramona/assets/color.jpg")
   end
 
   Cogs.def cat do
