@@ -53,7 +53,7 @@ defmodule Ramona.Commands.Moderation do
       Embed.field(embed, n, v, inline: true)
     end)
     |> Embed.title("Ramona")
-    |> Embed.thumbnail("https://i.pinimg.com/474x/38/20/b5/3820b57c4e29ee5006fdc25974fae98f.jpg")
+    |> Embed.thumbnail("https://i.imgur.com/B8BmGhu.png")
     |> Embed.url("https://github.com/appositum/ramona")
     |> Embed.footer(text: "Uptime: #{Utils.uptime()}")
     |> Embed.send()
