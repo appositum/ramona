@@ -24,7 +24,7 @@ defmodule Ramona.Commands.Basic do
 
   Cogs.def sayin(s) do
     case String.split(s, "|") |> Enum.map(&String.trim/1) do
-      [msg, time] ->
+      [time, msg] ->
         sec = Reminder.time_in_seconds(String.split(time))
 
         Task.start fn ->
