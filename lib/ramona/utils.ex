@@ -17,6 +17,16 @@ defmodule Ramona.Utils do
     end)
   end
 
+  def time_in_seconds(lst) do
+    Enum.map(lst, &Integer.parse/1)
+    |> Enum.map(fn
+      {n, "h"} -> n * 60 * 60
+      {n, "m"} -> n * 60
+      {n, "s"} -> n
+    end)
+    |> Enum.sum()
+  end
+
   @doc """
   Generate a random color in hexadecimal.
 
