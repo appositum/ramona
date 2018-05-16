@@ -5,9 +5,6 @@ defmodule Ramona.Commands.Basic do
   alias Ramona.Utils
   require Alchemy.Embed, as: Embed
 
-  Cogs.set_parser(:say, &List.wrap/1)
-  Cogs.set_parser(:sayin, &List.wrap/1)
-
   Cogs.def ping do
     old = Time.utc_now()
     {:ok, message} = Cogs.say("Pong!")
@@ -18,10 +15,12 @@ defmodule Ramona.Commands.Basic do
   @doc """
   Say something!
   """
+  Cogs.set_parser(:say, &List.wrap/1)
   Cogs.def say(s) do
     Cogs.say(s)
   end
 
+  Cogs.set_parser(:sayin, &List.wrap/1)
   Cogs.def sayin(s) do
     case String.split(s, "|") |> Enum.map(&String.trim/1) do
       [time, msg] ->
@@ -67,5 +66,22 @@ defmodule Ramona.Commands.Basic do
 
         File.rm("lib/ramona/assets/color.jpg")
     end
+  end
+
+  Cogs.set_parser(:bigtext, &List.wrap/1)
+  Cogs.def bigtext(text) do
+    text
+    |> String.graphemes()
+    |> Enum.map(&String.downcase/1)
+    |> Enum.map(fn letter ->
+      letters = String.graphemes("abcdefghijklmnopqrstuvwxyz")
+      cond do
+        letter == " " -> "     "
+        letter in letters -> ":regional_indicator_#{letter}:"
+        true -> letter
+      end
+    end)
+    |> Enum.join()
+    |> Cogs.say()
   end
 end
