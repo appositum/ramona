@@ -109,15 +109,14 @@ defmodule Ramona.Commands.Moderation do
   # Cogs.def prune(quantity \\ "") do
   #   case Integer.parse(quantity) do
   #     {n, _} ->
-  #       task = Task.async fn ->
-  #         {:ok, msgs} = Client.get_messages(message.channel_id, limit: n+1)
-  #         Client.delete_messages(message.channel_id, msgs)
-  #         ":wastebasket: | **#{message.author.username}** deleted #{n} messages in this channel!"
-  #       end
+  #       {:ok, msgs} = Client.get_messages(message.channel_id, limit: n+1)
 
-  #       {:ok, msg} = Client.send_message(message.channel_id, Task.await(task))
-  #       Process.sleep(3000)
-  #       Client.delete_message(msg)
+  #       case Client.delete_messages(message.channel_id, msgs) do
+  #         {:ok, nil} -> nil
+  #         {:error, json} ->
+  #           map = Poison.decode!(json)
+  #           Logger.error ~s/Error code #{map["code"]}: #{map["message"]}/
+  #       end
 
   #     :error ->
   #       Cogs.say(":exclamation: **You need to specify a number of messages to delete!**")
