@@ -73,12 +73,34 @@ defmodule Ramona.Commands.Basic do
     text
     |> String.graphemes()
     |> Enum.map(&String.downcase/1)
-    |> Enum.map(fn letter ->
+    |> Enum.map(fn char ->
       letters = String.graphemes("abcdefghijklmnopqrstuvwxyz")
       cond do
-        letter == " " -> "     "
-        letter in letters -> ":regional_indicator_#{letter}:"
-        true -> letter
+        char == " " -> "     "
+        char in letters -> ":regional_indicator_#{char}:"
+        true -> char
+      end
+    end)
+    |> Enum.join()
+    |> String.replace("10", ":keycap_ten:")
+    |> String.graphemes()
+    |> Enum.map(fn char ->
+      numbers = %{
+        "0" => ":zero:",
+        "1" => ":one:",
+        "2" => ":two:",
+        "3" => ":three:",
+        "4" => ":four:",
+        "5" => ":five:",
+        "6" => ":six:",
+        "7" => ":seven:",
+        "8" => ":eight:",
+        "9" => ":nine:"
+      }
+
+      cond do
+        char in Map.keys(numbers) -> numbers[char]
+        true -> char
       end
     end)
     |> Enum.join()
