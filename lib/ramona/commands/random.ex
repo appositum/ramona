@@ -15,12 +15,16 @@ defmodule Ramona.Commands.Random do
   end
 
   Cogs.def cat do
-    image = HTTPoison.get!("http://aws.random.cat/meow").body
-    |> Poison.decode!()
-    |> Map.get("file")
+    image_tag = HTTPoison.get!("http://random.cat/view/#{Enum.random(1..1677)}").body
+    |> Floki.parse()
+    |> Floki.find("img#cat")
+    |> Enum.at(0)
+
+    {_tag, info, _} = image_tag
+    {_, image_link} = Enum.find(info, &match?({"src", _}, &1))
 
     %Embed{}
-    |> Embed.image(image)
+    |> Embed.image(image_link)
     |> Embed.send()
   end
 
