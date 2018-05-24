@@ -23,6 +23,7 @@ defmodule Ramona do
   defp load_modules do
     use Ramona.Events
     use Ramona.Commands.Basic
+    use Ramona.Commands.Morse
     use Ramona.Commands.Random
     use Ramona.Commands.Moderation
   end
