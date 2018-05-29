@@ -37,7 +37,7 @@ defmodule Ramona.Commands.Moderation do
       {"Version", "#{app_version}"},
       {"Elixir Version", System.version()},
       {"Library", "[Alchemy #{lib_version}](https://github.com/cronokirby/alchemy)"},
-      {"Owner", "[appositum#7545](https://github.com/appositum)"},
+      {"Owner", "[appositum#1888](https://github.com/appositum)"},
       {"Guilds", "#{length(guilds)}"},
       {"Processes", "#{length(:erlang.processes())}"},
       {"Process Memory", mem_format.(memories[:processes], :mb)},
