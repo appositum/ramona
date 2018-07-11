@@ -88,6 +88,13 @@ defmodule Ramona.Commands.Moderation do
     end
   end
 
+  Cogs.set_parser(:wrapcode, &List.wrap/1)
+  Cogs.def wrapcode(_) do
+    wrap = ~s{Digite:\n\\`\\`\\`python\nprint('~/python/one-liners.py'.split('.')[-1])\n\\`\\`\\`\nPara enviar:\n```python\nprint('~/python/one-liners.py'.split('.')[-1])\n```\n\nOu:\n\\`\\`\\`html\n<ul style=\"list-style:none;\"><li>Cappucino</li></ul>\n\\`\\`\\`\nPara enviar:\n```html\n<ul style=\"list-style:none;\"><li>Cappucino</li></ul>\n```\nNão confunda crase (\\`) com aspas simples (')!}
+
+    Cogs.say(wrap)
+  end
+
   # TODO
   # Cogs.def kick(user) do
   #   {:ok, guild} = Cogs.guild()
