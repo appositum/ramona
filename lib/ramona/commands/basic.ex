@@ -70,6 +70,8 @@ defmodule Ramona.Commands.Basic do
 
   Cogs.set_parser(:bigtext, &List.wrap/1)
   Cogs.def bigtext(text) do
+    {:ok, nil} = Client.delete_message(message)
+
     text
     |> String.graphemes()
     |> Enum.map(&String.downcase/1)
