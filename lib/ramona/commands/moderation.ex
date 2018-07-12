@@ -90,7 +90,14 @@ defmodule Ramona.Commands.Moderation do
 
   Cogs.set_parser(:wrapcode, &List.wrap/1)
   Cogs.def wrapcode(_) do
-    wrap = ~s{Digite:\n\\`\\`\\`python\nprint('~/python/one-liners.py'.split('.')[-1])\n\\`\\`\\`\nPara enviar:\n```python\nprint('~/python/one-liners.py'.split('.')[-1])\n```\n\nOu:\n\\`\\`\\`html\n<ul style=\"list-style:none;\"><li>Cappucino</li></ul>\n\\`\\`\\`\nPara enviar:\n```html\n<ul style=\"list-style:none;\"><li>Cappucino</li></ul>\n```\nNão confunda crase (\\`) com aspas simples (')!}
+    wrap = ~s{**Formatação de código**\n\nDigite:\n\\`\\`\\`rust\nlet mut tokens = Vec::<Token>::new();\n\\`\\`\\`\nPara enviar:\n```rust\nlet mut tokens = Vec::<Token>::new();\n```\n\nOu:\n\\`\\`\\`html\n<ul style=\"list-style:none;\"><li>Cappucino</li></ul>\n\\`\\`\\`\nPara enviar:\n```html\n<ul style=\"list-style:none;\"><li>Cappucino</li></ul>\n```\nNão confunda crase (\\`) com aspas simples (')!}
+
+    Cogs.say(wrap)
+  end
+
+  Cogs.set_parser(:wrapmini, &List.wrap/1)
+  Cogs.def wrapmini(_) do
+    wrap = ~s{**Substitua "linguagem" com java, cpp, python, etc. Não deve haver espaços entre as crases e o nome da linguagem.**\n\n\\`\\`\\`haskell\nsafeHead :: SafeList a NonEmpty -> a\n\\`\\`\\`\n```haskell\nsafeHead :: SafeList a NonEmpty -> a\n```}
 
     Cogs.say(wrap)
   end
