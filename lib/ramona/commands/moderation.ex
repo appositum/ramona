@@ -103,7 +103,7 @@ defmodule Ramona.Commands.Moderation do
   end
 
   Cogs.def regras do
-    {:ok, nil} = Client.delete_message(message)
+    Client.delete_message(message)
     %Embed{}
     |> Embed.color(0x36393f)
     |> Embed.title("Regras")
@@ -113,7 +113,7 @@ defmodule Ramona.Commands.Moderation do
   end
 
   Cogs.def cargos do
-    {:ok, nil} = Client.delete_message(message)
+    Client.delete_message(message)
     %Embed{}
     |> Embed.color(0x36393f)
     |> Embed.title("Cargos")
