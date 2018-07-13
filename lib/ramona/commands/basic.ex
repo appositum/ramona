@@ -108,25 +108,4 @@ defmodule Ramona.Commands.Basic do
     |> Enum.join()
     |> Cogs.say()
   end
-
-  Cogs.def regras do
-    {:ok, nil} = Client.delete_message(message)
-    %Embed{}
-    |> Embed.color(0x01b6ad)
-    |> Embed.title("Regras")
-    |> Embed.field("**1. Canais**", "Leia as descrições dos canais e tente manter o tópico adequado.")
-    |> Embed.field("\n\n2. Sem divulgação", "ta ok respeitar")
-    |> Embed.send()
-  end
-
-  Cogs.def cargos do
-    {:ok, nil} = Client.delete_message(message)
-    %Embed{}
-    |> Embed.color(0x009CCF)
-    |> Embed.title("Cargos")
-    |> Embed.field("ᚫ Ansuz", "Administradores")
-    |> Embed.field("ᛇ Eihwaz", "Moderadores")
-    |> Embed.field("ᛗ Mannaz", "Membro", inline: true)
-    |> Embed.send()
-  end
 end
