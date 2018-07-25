@@ -5,13 +5,14 @@ defmodule Ramona.Events do
   require Logger
 
   Events.on_ready(:ready)
+  Events.on_message(:command_log)
+
   def ready(_, _) do
-    me = "#{Cache.user.username}##{Cache.user.discriminator} (#{Cache.user.id})"
+    me = "#{Cache.user().username}##{Cache.user().discriminator} (#{Cache.user().id})"
     Logger.info("Logged in as #{me}")
     Logger.info("Ramona is ready!")
   end
 
-  Events.on_message(:command_log)
   def command_log(message) do
     prefix = Application.fetch_env!(:ramona, :prefix)
 

@@ -7,7 +7,7 @@ defmodule Ramona.Commands.Random do
   Cogs.group("random")
 
   Cogs.def color do
-    "#" <> Utils.color_random()
+    ("#" <> Utils.color_random())
     |> Utils.color_embed()
     |> Embed.send("", file: "lib/ramona/assets/color.jpg")
 
@@ -15,10 +15,11 @@ defmodule Ramona.Commands.Random do
   end
 
   Cogs.def cat do
-    image_tag = HTTPoison.get!("http://random.cat/view/#{Enum.random(1..1677)}").body
-    |> Floki.parse()
-    |> Floki.find("img#cat")
-    |> Enum.at(0)
+    image_tag =
+      HTTPoison.get!("http://random.cat/view/#{Enum.random(1..1677)}").body
+      |> Floki.parse()
+      |> Floki.find("img#cat")
+      |> Enum.at(0)
 
     {_tag, info, _} = image_tag
     {_, image_link} = Enum.find(info, &match?({"src", _}, &1))
@@ -29,9 +30,10 @@ defmodule Ramona.Commands.Random do
   end
 
   Cogs.def dog do
-    image = HTTPoison.get!("https://random.dog/woof.json").body
-    |> Poison.decode!()
-    |> Map.get("url")
+    image =
+      HTTPoison.get!("https://random.dog/woof.json").body
+      |> Poison.decode!()
+      |> Map.get("url")
 
     %Embed{}
     |> Embed.image(image)
