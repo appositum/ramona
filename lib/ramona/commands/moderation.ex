@@ -6,12 +6,16 @@ defmodule Ramona.Commands.Moderation do
   require Logger
   require Alchemy.Embed, as: Embed
 
-  @embed_color 0x36393f
+  @embed_color 0x36393F
+
+  Cogs.set_parser(:wrapcode, &List.wrap/1)
+  Cogs.set_parser(:wrapmini, &List.wrap/1)
 
   Cogs.def help do
-    commands = Cogs.all_commands()
-    |> Map.keys()
-    |> Enum.join("\n")
+    commands =
+      Cogs.all_commands()
+      |> Map.keys()
+      |> Enum.join("\n")
 
     %Embed{color: @embed_color, description: commands}
     |> Embed.title("All available commands")
@@ -61,22 +65,23 @@ defmodule Ramona.Commands.Moderation do
     |> Embed.send()
   end
 
-  Cogs.set_parser(:wrapcode, &List.wrap/1)
   Cogs.def wrapcode(_) do
-    wrap = ~s{**Formatação de código**\n\nDigite:\n\\`\\`\\`rust\nlet mut tokens = Vec::<Token>::new();\n\\`\\`\\`\nPara enviar:\n```rust\nlet mut tokens = Vec::<Token>::new();\n```\n\nOu:\n\\`\\`\\`html\n<ul style=\"list-style:none;\"><li>Cappucino</li></ul>\n\\`\\`\\`\nPara enviar:\n```html\n<ul style=\"list-style:none;\"><li>Cappucino</li></ul>\n```\nNão confunda o acento grave (\\`) com apóstrofo (')!}
+    wrap =
+      ~s{**Formatação de código**\n\nDigite:\n\\`\\`\\`rust\nlet mut tokens = Vec::<Token>::new();\n\\`\\`\\`\nPara enviar:\n```rust\nlet mut tokens = Vec::<Token>::new();\n```\n\nOu:\n\\`\\`\\`html\n<ul style=\"list-style:none;\"><li>Cappucino</li></ul>\n\\`\\`\\`\nPara enviar:\n```html\n<ul style=\"list-style:none;\"><li>Cappucino</li></ul>\n```\nNão confunda o acento grave (\\`) com apóstrofo (')!}
 
     Cogs.say(wrap)
   end
 
-  Cogs.set_parser(:wrapmini, &List.wrap/1)
   Cogs.def wrapmini(_) do
-    wrap = ~s{**Substitua "linguagem" por java, cpp, python, etc. Não deve haver espaços entre os acentos e o nome da linguagem.**\n\n\\`\\`\\`haskell\nsafeHead :: SafeList a NonEmpty -> a\n\\`\\`\\`\n```haskell\nsafeHead :: SafeList a NonEmpty -> a\n```}
+    wrap =
+      ~s{**Substitua "linguagem" por java, cpp, python, etc. Não deve haver espaços entre os acentos e o nome da linguagem.**\n\n\\`\\`\\`haskell\nsafeHead :: SafeList a NonEmpty -> a\n\\`\\`\\`\n```haskell\nsafeHead :: SafeList a NonEmpty -> a\n```}
 
     Cogs.say(wrap)
   end
 
   Cogs.def regras do
     Client.delete_message(message)
+
     %Embed{}
     |> Embed.color(@embed_color)
     |> Embed.title("Regras")
@@ -87,6 +92,7 @@ defmodule Ramona.Commands.Moderation do
 
   Cogs.def cargos do
     Client.delete_message(message)
+
     %Embed{}
     |> Embed.color(@embed_color)
     |> Embed.title("Cargos")
@@ -95,39 +101,4 @@ defmodule Ramona.Commands.Moderation do
     |> Embed.field("ᛗ Mannaz", "Membro", inline: true)
     |> Embed.send()
   end
-
-  # TODO
-  # Cogs.def kick(user) do
-  #   {:ok, guild} = Cogs.guild()
-  #   user_id = Regex.replace(~r{<|@|>}, user, "")
-
-  #   Client.kick_member(guild.id, user_id)
-  #   Client.delete_message(message)
-  # end
-
-  # TODO
-  # Cogs.def ban(user, days \\ 0) do
-  #   {:ok, guild} = Cogs.guild()
-  #   user_id = Regex.replace(~r{<|@|>}, user, "")
-
-  #   Client.ban_member(guild.id, user_id, days)
-  #   Client.delete_message(message)
-  # end
-
-  # Cogs.def prune(quantity \\ "") do
-  #   case Integer.parse(quantity) do
-  #     {n, _} ->
-  #       {:ok, msgs} = Client.get_messages(message.channel_id, limit: n+1)
-
-  #       case Client.delete_messages(message.channel_id, msgs) do
-  #         {:ok, nil} -> nil
-  #         {:error, json} ->
-  #           map = Poison.decode!(json)
-  #           Logger.error ~s/Error code #{map["code"]}: #{map["message"]}/
-  #       end
-
-  #     :error ->
-  #       Cogs.say(":exclamation: **You need to specify a number of messages to delete!**")
-  #   end
-  # end
 end
