@@ -8,9 +8,6 @@ defmodule Ramona.Commands.Moderation do
 
   @embed_color 0x36393F
 
-  Cogs.set_parser(:wrapcode, &List.wrap/1)
-  Cogs.set_parser(:wrapmini, &List.wrap/1)
-
   Cogs.def help do
     commands =
       Cogs.all_commands()
@@ -65,40 +62,26 @@ defmodule Ramona.Commands.Moderation do
     |> Embed.send()
   end
 
-  Cogs.def wrapcode(_) do
-    wrap =
-      ~s{**Formatação de código**\n\nDigite:\n\\`\\`\\`rust\nlet mut tokens = Vec::<Token>::new();\n\\`\\`\\`\nPara enviar:\n```rust\nlet mut tokens = Vec::<Token>::new();\n```\n\nOu:\n\\`\\`\\`html\n<ul style=\"list-style:none;\"><li>Cappucino</li></ul>\n\\`\\`\\`\nPara enviar:\n```html\n<ul style=\"list-style:none;\"><li>Cappucino</li></ul>\n```\nNão confunda o acento grave (\\`) com apóstrofo (')!}
+  # Cogs.def regras do
+  #   Client.delete_message(message)
 
-    Cogs.say(wrap)
-  end
+  #   %Embed{}
+  #   |> Embed.color(@embed_color)
+  #   |> Embed.title("Regras")
+  #   |> Embed.field("1. Canais", "Leia as descrições dos canais e tente manter o tópico adequado.")
+  #   |> Embed.field("\n\n2. Sem divulgação", "ta ok respeitar")
+  #   |> Embed.send()
+  # end
 
-  Cogs.def wrapmini(_) do
-    wrap =
-      ~s{**Substitua "linguagem" por java, cpp, python, etc. Não deve haver espaços entre os acentos e o nome da linguagem.**\n\n\\`\\`\\`haskell\nsafeHead :: SafeList a NonEmpty -> a\n\\`\\`\\`\n```haskell\nsafeHead :: SafeList a NonEmpty -> a\n```}
+  # Cogs.def cargos do
+  #   Client.delete_message(message)
 
-    Cogs.say(wrap)
-  end
-
-  Cogs.def regras do
-    Client.delete_message(message)
-
-    %Embed{}
-    |> Embed.color(@embed_color)
-    |> Embed.title("Regras")
-    |> Embed.field("1. Canais", "Leia as descrições dos canais e tente manter o tópico adequado.")
-    |> Embed.field("\n\n2. Sem divulgação", "ta ok respeitar")
-    |> Embed.send()
-  end
-
-  Cogs.def cargos do
-    Client.delete_message(message)
-
-    %Embed{}
-    |> Embed.color(@embed_color)
-    |> Embed.title("Cargos")
-    |> Embed.field("ᚫ Ansuz", "Administradores", inline: true)
-    |> Embed.field("ᛇ Eihwaz", "Moderadores", inline: true)
-    |> Embed.field("ᛗ Mannaz", "Membro", inline: true)
-    |> Embed.send()
-  end
+  #   %Embed{}
+  #   |> Embed.color(@embed_color)
+  #   |> Embed.title("Cargos")
+  #   |> Embed.field("ᚫ Ansuz", "Administradores", inline: true)
+  #   |> Embed.field("ᛇ Eihwaz", "Moderadores", inline: true)
+  #   |> Embed.field("ᛗ Mannaz", "Membro", inline: true)
+  #   |> Embed.send()
+  # end
 end

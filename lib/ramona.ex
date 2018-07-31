@@ -26,6 +26,7 @@ defmodule Ramona do
     use Ramona.Events.Macros
     use Ramona.Commands.Basic
     use Ramona.Commands.Morse
+    use Ramona.Commands.Macros
     use Ramona.Commands.Random
     use Ramona.Commands.Moderation
   end
