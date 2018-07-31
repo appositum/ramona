@@ -8,9 +8,6 @@ defmodule Ramona.Commands.Moderation do
 
   @embed_color 0x36393F
 
-  Cogs.set_parser(:wrapcode, &List.wrap/1)
-  Cogs.set_parser(:wrapmini, &List.wrap/1)
-
   Cogs.def help do
     commands =
       Cogs.all_commands()
