@@ -6,15 +6,31 @@ defmodule Ramona.Commands.Macros do
   Cogs.set_parser(:xyproblem, &List.wrap/1)
 
   Cogs.def wrapcode(_) do
-    wrap =
-      ~s{**Formatação de código**\n\nDigite:\n\\`\\`\\`rust\nlet mut tokens = Vec::<Token>::new();\n\\`\\`\\`\nPara enviar:\n```rust\nlet mut tokens = Vec::<Token>::new();\n```\n\nOu:\n\\`\\`\\`html\n<ul style=\"list-style:none;\"><li>Cappucino</li></ul>\n\\`\\`\\`\nPara enviar:\n```html\n<ul style=\"list-style:none;\"><li>Cappucino</li></ul>\n```\nNão confunda o acento grave (\\`) com apóstrofo (')!}
+    wrap = "**Formatação de código**"
+      <> "\n\nDigite:\n"
+      <> "\\`\\`\\`rust\n"
+      <> "let mut tokens = Vec::<Token>::new();\n\\`\\`\\`"
+      <> "\nPara enviar:\n"
+      <> "```rust\n"
+      <> "let mut tokens = Vec::<Token>::new();\n```"
+
+      <> "\nOu:\n"
+      <> "\\`\\`\\`html\n"
+      <> "<ul style=\"list-style:none;\"><li>Cappucino</li></ul>\n\\`\\`\\`"
+      <> "\nPara enviar:\n"
+      <> "```html\n<ul style=\"list-style:none;\"><li>Cappucino</li></ul>\n```"
+      <> "\nNão confunda o acento grave (\\`) com apóstrofo (')!}"
 
     Cogs.say(wrap)
   end
 
   Cogs.def wrapmini(_) do
-    wrap =
-      ~s{**Substitua "linguagem" por java, cpp, python, etc. Não deve haver espaços entre os acentos e o nome da linguagem.**\n\n\\`\\`\\`haskell\nsafeHead :: SafeList a NonEmpty -> a\n\\`\\`\\`\n```haskell\nsafeHead :: SafeList a NonEmpty -> a\n```}
+    wrap = "**Substitua `haskell` por java, cpp, python, etc."
+      <> "Não deve haver espaços entre os acentos e o nome da linguagem.**"
+      <> "\n\n\\`\\`\\`haskell\n"
+      <> "safeHead :: SafeList a NonEmpty -> a\n\\`\\`\\`\n"
+      <> "```haskell\n"
+      <> "safeHead :: SafeList a NonEmpty -> a\n```"
 
     Cogs.say(wrap)
   end
