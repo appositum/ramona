@@ -54,7 +54,6 @@ defmodule Ramona.Events do
           |> Logger.error()
 
         {:ok, member} ->
-          IO.inspect no_permission(member), label: "CU"
           if no_permission(member)
           and Regex.run(~r{discord\.gg\/[a-zA-Z0-9]*}, message.content) do
             with {:ok, channel} <- Alchemy.Client.get_channel(message.channel_id),
@@ -64,11 +63,8 @@ defmodule Ramona.Events do
               <> "#{message.author.username}##{message.author.discriminator} "
               <> "(#{message.author.id})"
               |> Logger.warn()
-              IO.inspect(message)
             else
-              err ->
-                IO.inspect err
-                Logger.error(err)
+              err -> Logger.error(err)
             end
           end
       end
