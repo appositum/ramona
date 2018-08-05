@@ -134,4 +134,13 @@ defmodule Ramona.Commands.Basic do
   Cogs.def reverse(msg) do
     Cogs.say String.reverse(msg)
   end
+
+  Cogs.def invite(_) do
+    case Application.fetch_env(:ramona, :invite) do
+      {:ok, invite} ->
+        Cogs.say(invite)
+      :error ->
+        Cogs.say("There's no invite set")
+    end
+  end
 end
