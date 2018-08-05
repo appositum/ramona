@@ -62,6 +62,10 @@ defmodule Ramona.Commands.Moderation do
     |> Embed.send()
   end
 
+  Cogs.def setinvite(link) do
+    :ok = Application.put_env(:ramona, :invite, link)
+    Cogs.say("New invite successfully set to <#{link}>")
+  end
   # Cogs.def regras do
   #   Client.delete_message(message)
 
