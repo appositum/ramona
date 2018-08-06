@@ -6,12 +6,7 @@ defmodule Ramona.Commands.Basic do
   require Logger
   require Alchemy.Embed, as: Embed
 
-  Cogs.set_parser(:say,     &List.wrap/1)
-  Cogs.set_parser(:sayin,   &List.wrap/1)
-  Cogs.set_parser(:bigtext, &List.wrap/1)
-  Cogs.set_parser(:polar,   &List.wrap/1)
-  Cogs.set_parser(:reverse, &List.wrap/1)
-  Cogs.set_parser(:invite,  &List.wrap/1)
+  @appos "146367028968554496"
 
   Cogs.def ping do
     old = Time.utc_now()
@@ -24,6 +19,13 @@ defmodule Ramona.Commands.Basic do
   Say something!
   """
   Cogs.def say(s) do
+    Cogs.say(s)
+  end
+
+  Cogs.set_parser(:say, &List.wrap/1)
+  Cogs.def saydel(s) do
+    if message.author.id == @appos, do: Client.delete_message(message)
+
     Cogs.say(s)
   end
 
