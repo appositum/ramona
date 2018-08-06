@@ -3,6 +3,7 @@ defmodule Ramona.Commands.Basic do
   use Alchemy.Cogs
   alias Alchemy.Client
   alias Ramona.Utils
+  require Logger
   require Alchemy.Embed, as: Embed
 
   Cogs.set_parser(:say,     &List.wrap/1)
