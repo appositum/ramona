@@ -15,9 +15,7 @@ defmodule Ramona.Commands.Basic do
     Client.edit_message(message, "Pong! :ping_pong: took **#{time} ms**")
   end
 
-  @doc """
-  Say something!
-  """
+  Cogs.set_parser(:say, &List.wrap/1)
   Cogs.def say(s) do
     Cogs.say(s)
   end
@@ -29,6 +27,7 @@ defmodule Ramona.Commands.Basic do
     Cogs.say(s)
   end
 
+  Cogs.set_parser(:sayin, &List.wrap/1)
   Cogs.def sayin(s) do
     case String.split(s, "|") |> Enum.map(&String.trim/1) do
       [time, msg] ->
@@ -39,10 +38,10 @@ defmodule Ramona.Commands.Basic do
           Cogs.say(msg)
         end)
 
-        Cogs.say(~s(I will say "#{msg}" in #{sec} seconds))
+        Cogs.say ~s/I will say "#{msg}" in #{sec} seconds/
 
       _ ->
-        Cogs.say("Syntax error")
+        Cogs.say "Syntax error"
     end
   end
 
@@ -81,6 +80,7 @@ defmodule Ramona.Commands.Basic do
     end
   end
 
+  Cogs.set_parser(:bigtext, &List.wrap/1)
   Cogs.def bigtext(text) do
     {:ok, nil} = Client.delete_message(message)
 
@@ -122,6 +122,7 @@ defmodule Ramona.Commands.Basic do
     |> Cogs.say()
   end
 
+  Cogs.set_parser(:polar, &List.wrap/1)
   Cogs.def polar(arg) do
     {:ok, nil} = Client.delete_message(message)
 
@@ -135,18 +136,20 @@ defmodule Ramona.Commands.Basic do
     Client.send_message(message.channel_id, "", file: "lib/ramona/assets/#{file}")
   end
 
+  Cogs.set_parser(:reverse, &List.wrap/1)
   Cogs.def reverse(msg) do
     Cogs.say String.reverse(msg)
   end
 
+  Cogs.set_parser(:invite, &List.wrap/1)
   Cogs.def invite(_) do
     case Application.fetch_env(:ramona, :invite) do
       {:ok, invite} ->
         Cogs.say(invite)
-      :error ->
+        :error ->
         Cogs.say("There's no invite set")
+      end
     end
-  end
 
   defp xkcd_comic?(number) do
     case HTTPoison.get("https://xkcd.com/#{number}") do
