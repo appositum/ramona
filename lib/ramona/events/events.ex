@@ -45,7 +45,7 @@ defmodule Ramona.Events do
       {:ok, channel} = Client.get_channel(message.channel_id)
 
       if message.author.id != Cache.user.id
-      and no_permission(message.author.id)
+      and no_invite_permission(message.author.id)
       and channel.parent_id != @moderation_cat
       do
         with {:ok, nil} <- Client.delete_message(message) do
@@ -62,7 +62,7 @@ defmodule Ramona.Events do
     end
   end
 
-  defp no_permission(user_id) do
+  defp no_invite_permission(user_id) do
     {:ok, member} = Client.get_member(@unleashed_gid, user_id)
     @ansuz not in member.roles and @eihwaz not in member.roles
   end
