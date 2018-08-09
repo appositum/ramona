@@ -54,8 +54,8 @@ defmodule Ramona.Utils do
     end
   end
 
-  @spec color_embed(color_hex) :: %Alchemy.Embed{}
-  def color_embed(color_hex) do
+  @spec color_embed(color_hex, String.t()) :: %Alchemy.Embed{}
+  def color_embed(color_hex, filename) do
     # color struct
     color = CssColors.parse!(color_hex)
 
@@ -65,7 +65,7 @@ defmodule Ramona.Utils do
     hsl = "#{hue}, #{lightness}%, #{saturation}%"
     rgb = "#{trunc(color.red)}, #{trunc(color.green)}, #{trunc(color.blue)}"
 
-    %Mogrify.Image{path: "color.jpg", ext: "jpg"}
+    %Mogrify.Image{path: "#{filename}.jpg", ext: "jpg"}
     |> Mogrify.custom("size", "80x80")
     |> Mogrify.canvas(to_string(color))
     |> Mogrify.create(path: "lib/ramona/assets/")
@@ -82,7 +82,7 @@ defmodule Ramona.Utils do
     %Embed{color: color_integer, title: to_string(color)}
     |> Embed.field("RGB", rgb)
     |> Embed.field("HSL", hsl)
-    |> Embed.thumbnail("attachment://color.jpg")
+    |> Embed.thumbnail("attachment://#{filename}.jpg")
   end
 
   @spec gen_hash :: String.t()
@@ -95,5 +95,33 @@ defmodule Ramona.Utils do
     |> DateTime.to_unix()
     |> salt.()
     |> Base.encode16()
+  end
+
+  @spec parse_color(String.t(), boolean, boolean) :: {:ok, color_hex} | :error
+  def parse_color(hex, named_color?, hashtag?) do
+    pattern1 = ~r/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
+    pattern2 = ~r/^([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
+
+    cond do
+      Regex.match?(pattern1, hex) ->
+        {:ok, hex}
+
+      Regex.match?(pattern2, hex) ->
+        if hashtag? do
+          {:ok, "#" <> hex}
+        else
+          {:ok, hex}
+        end
+
+      true ->
+        if named_color? do
+          case CssColors.parse(hex) do
+            {:ok, _} -> {:ok, hex}
+            {:error, _} -> :error
+          end
+        else
+          :error
+        end
+    end
   end
 end
