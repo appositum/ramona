@@ -49,34 +49,36 @@ defmodule Ramona.Commands.Basic do
   Get info about a specific color.
   """
   Cogs.def color(hex \\ "") do
-    pattern1 = ~r/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
-    pattern2 = ~r/^([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
+    hash = Utils.gen_hash()
 
-    color =
-      cond do
-        Regex.match?(pattern1, hex) ->
-          hex
-
-        Regex.match?(pattern2, hex) ->
-          "#" <> hex
-
-        true ->
-          # named colors
-          case CssColors.parse(hex) do
-            {:ok, _} -> hex
-            {:error, _} -> :error
-          end
-      end
-
-    case color do
+    case Utils.parse_color(hex, true, true) do
       :error ->
         Cogs.say(":exclamation: **Invalid color**")
 
       color ->
         Utils.color_embed(color)
-        |> Embed.send("", file: "lib/ramona/assets/color.jpg")
+        |> Embed.send("", file: "lib/ramona/assets/#{hash}.jpg")
 
-        File.rm("lib/ramona/assets/color.jpg")
+        File.rm("lib/ramona/assets/#{hash}.jpg")
+    end
+  end
+
+  Cogs.def mixcolors(hex1, hex2) do
+    with {:ok, color1} <- Utils.parse_color(hex1, false, true),
+         {:ok, color2} <- Utils.parse_color(hex2, false, true)
+    do
+      hash = Utils.gen_hash()
+
+      CssColors.parse!(color1)
+      |> CssColors.mix(CssColors.parse!(color2))
+      |> to_string()
+      |> Utils.color_embed(hash)
+      |> Embed.send("", file: "lib/ramona/assets/#{hash}.jpg")
+
+      File.rm("lib/ramona/assets/#{hash}.jpg")
+    else
+      :error ->
+        Cogs.say "That's not a valid color"
     end
   end
 
