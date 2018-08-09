@@ -67,14 +67,14 @@ defmodule Ramona.Commands.Basic do
     pattern1 = ~r/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
     pattern2 = ~r/^([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
 
-      cond do
-        Regex.match?(pattern1, hex) ->
-          hex
+    cond do
+      Regex.match?(pattern1, hex) ->
+        hex
 
-        Regex.match?(pattern2, hex) ->
+      Regex.match?(pattern2, hex) ->
         if hashtag?, do: "#" <> hex, else: hex
 
-        true ->
+      true ->
         if named_color? do
           case CssColors.parse(hex) do
             {:ok, _} -> hex
@@ -82,7 +82,7 @@ defmodule Ramona.Commands.Basic do
           end
         else
           :error
-      end
+        end
     end
   end
 
