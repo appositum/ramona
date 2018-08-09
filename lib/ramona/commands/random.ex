@@ -7,11 +7,13 @@ defmodule Ramona.Commands.Random do
   Cogs.group("random")
 
   Cogs.def color do
-    ("#" <> Utils.color_random())
-    |> Utils.color_embed()
-    |> Embed.send("", file: "lib/ramona/assets/color.jpg")
+    hash = Utils.gen_hash()
 
-    File.rm("lib/ramona/assets/color.jpg")
+    ("#" <> Utils.color_random())
+    |> Utils.color_embed(hash)
+    |> Embed.send("", file: "lib/ramona/assets/#{hash}.jpg")
+
+    File.rm("lib/ramona/assets/#{hash}.jpg")
   end
 
   Cogs.def cat do
