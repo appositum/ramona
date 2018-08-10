@@ -1,7 +1,7 @@
 defmodule Ramona.Commands.Basic do
   @moduledoc false
   use Alchemy.Cogs
-  alias Alchemy.Client
+  alias Alchemy.{Cache, Client}
   alias Ramona.Utils
   require Logger
   require Alchemy.Embed, as: Embed
@@ -17,31 +17,44 @@ defmodule Ramona.Commands.Basic do
 
   Cogs.set_parser(:say, &List.wrap/1)
   Cogs.def say(s) do
-    Cogs.say(s)
+    patt = :binary.compile_pattern(["@everyone", "@here"])
+
+    if message.author.id != Cache.user.id do
+      cond do
+        String.contains?(message.content, patt) ->
+          police = "lib/ramona/assets/polar_bear_police.gif"
+          Client.send_message(message.channel_id, "STOP", file: police)
+
+        true -> Cogs.say(s)
+      end
+    end
   end
 
   Cogs.set_parser(:say, &List.wrap/1)
   Cogs.def saydel(s) do
-    if message.author.id == @appos, do: Client.delete_message(message)
-
-    Cogs.say(s)
+    if message.author.id == @appos do
+      Client.delete_message(message)
+      Cogs.say(s)
+    end
   end
 
   Cogs.set_parser(:sayin, &List.wrap/1)
   Cogs.def sayin(s) do
-    case String.split(s, "|") |> Enum.map(&String.trim/1) do
-      [time, msg] ->
-        sec = Utils.time_in_seconds(String.split(time))
+    if message.author.id != Cache.user.id do
+      case String.split(s, "|", parts: 2) |> Enum.map(&String.trim/1) do
+        [time, msg] ->
+          sec = Utils.time_in_seconds(String.split(time))
 
-        Task.start(fn ->
-          Process.sleep(sec * 1000)
-          Cogs.say(msg)
-        end)
+          Task.start fn ->
+            Process.sleep(sec * 1000)
+            Cogs.say(msg)
+          end
 
-        Cogs.say ~s/I will say "#{msg}" in #{sec} seconds/
+          Cogs.say ~s/I will say "#{msg}" in #{sec} seconds/
 
-      _ ->
-        Cogs.say "Syntax error"
+        _ ->
+          Cogs.say("Syntax error")
+      end
     end
   end
 
