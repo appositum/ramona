@@ -41,7 +41,7 @@ defmodule Ramona.Events do
   end
 
   def block_invites(message) do
-    if Regex.run(~r{discord\.gg\/[a-zA-Z0-9]*}, message.content) do
+    if invite_match?(message.content) do
       {:ok, channel} = Client.get_channel(message.channel_id)
 
       if message.author.id != Cache.user.id
@@ -60,6 +60,11 @@ defmodule Ramona.Events do
         end
       end
     end
+  end
+
+  defp invite_match?(str) do
+    Regex.run(~r{discord\.gg\/[a-zA-Z0-9]*}, str) ||
+    Regex.run(~r{discordapp\.com\/invite\/[a-zA-Z0-9]*}, str)
   end
 
   defp no_invite_permission(user_id) do
