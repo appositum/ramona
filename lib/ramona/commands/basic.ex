@@ -48,7 +48,7 @@ defmodule Ramona.Commands.Basic do
 
           Task.start fn ->
             Process.sleep(sec * 1000)
-            Cogs.say(msg)
+            Utils.escape_prefix(msg) |> Cogs.say()
           end
 
           Cogs.say ~s/I will say "#{msg}" in #{sec} seconds/
