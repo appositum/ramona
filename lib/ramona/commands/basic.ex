@@ -16,25 +16,26 @@ defmodule Ramona.Commands.Basic do
   end
 
   Cogs.set_parser(:say, &List.wrap/1)
-  Cogs.def say(s) do
+  Cogs.def say(str) do
     patt = :binary.compile_pattern(["@everyone", "@here"])
 
-    if message.author.id != Cache.user.id do
-      cond do
-        String.contains?(message.content, patt) ->
-          police = "lib/ramona/assets/polar_bear_police.gif"
-          Client.send_message(message.channel_id, "STOP", file: police)
-
-        true -> Cogs.say(s)
-      end
+    if message.author.id != Cache.user.id
+    and not String.contains?(message.content, patt)
+    do
+      str
+      |> Utils.escape_prefix()
+      |> Cogs.say()
     end
   end
 
-  Cogs.set_parser(:say, &List.wrap/1)
-  Cogs.def saydel(s) do
+  Cogs.set_parser(:saydel, &List.wrap/1)
+  Cogs.def saydel(str) do
     if message.author.id == @appos do
       Client.delete_message(message)
-      Cogs.say(s)
+
+      str
+      |> Utils.escape_prefix()
+      |> Cogs.say()
     end
   end
 
