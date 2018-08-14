@@ -19,14 +19,10 @@ defmodule Ramona.Commands.Basic do
   Cogs.def say(s) do
     patt = :binary.compile_pattern(["@everyone", "@here"])
 
-    if message.author.id != Cache.user.id do
-      cond do
-        String.contains?(message.content, patt) ->
-          police = "lib/ramona/assets/polar_bear_police.gif"
-          Client.send_message(message.channel_id, "STOP", file: police)
-
-        true -> Cogs.say(s)
-      end
+    if message.author.id != Cache.user.id
+    and not String.contains?(message.content, patt)
+    do
+        Cogs.say(s)
     end
   end
 
