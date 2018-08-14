@@ -192,7 +192,7 @@ defmodule Ramona.Commands.Basic do
     case HTTPoison.get("https://c.xkcd.com/random/comic/") do
       {:ok, res} ->
         res.headers
-        |> Enum.find(&match?({"Location", link}, &1))
+        |> Enum.find(&match?({"Location", _link}, &1))
         |> elem(1)
 
       {:error, err} ->
