@@ -124,4 +124,10 @@ defmodule Ramona.Utils do
         end
     end
   end
+
+  @spec escape_prefix(String.t()) :: String.t()
+  def escape_prefix(message) do
+    prefix = Application.fetch_env!(:ramona, :prefix)
+    String.replace(message, prefix, "\\#{prefix}")
+  end
 end
