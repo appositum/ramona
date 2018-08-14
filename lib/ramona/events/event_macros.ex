@@ -21,7 +21,9 @@ defmodule Ramona.Events.Macros do
     content = "ala tento chupar o proprio pito kkkkkkkkkkkkkkkk"
     trigger = "you can't star your own messages!"
 
-    if String.contains?(message.content, trigger) do
+    if String.contains?(message.content, trigger)
+    and message.author.id == "349626729226305537"
+    do
       Client.send_message(message.channel_id, content)
     end
   end
