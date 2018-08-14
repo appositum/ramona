@@ -29,8 +29,8 @@ defmodule Ramona.Events.Macros do
   end
 
   def striking(message) do
-    if String.contains?(message.content, "striking") and
-         message.author.id != Alchemy.Cache.user().id do
+    if String.contains?(message.content, "striking")
+    and message.author.id != Alchemy.Cache.user().id do
       if message.content == "r$striking" do
         {:ok, nil} = Client.delete_message(message)
       end
