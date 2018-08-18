@@ -130,4 +130,10 @@ defmodule Ramona.Utils do
     prefix = Application.fetch_env!(:ramona, :prefix)
     String.replace(message, prefix, "\\#{prefix}")
   end
+
+  @spec invite_match?(String.t()) :: boolean
+  def invite_match?(str) do
+    Regex.run(~r{discord\.gg\/[a-zA-Z0-9]*}, str) ||
+    Regex.run(~r{discordapp\.com\/invite\/[a-zA-Z0-9]*}, str)
+  end
 end
