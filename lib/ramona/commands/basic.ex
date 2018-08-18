@@ -21,6 +21,7 @@ defmodule Ramona.Commands.Basic do
 
     if message.author.id != Cache.user.id
     and not String.contains?(message.content, patt)
+    and Utils.invite_match?(message.content) == nil
     do
       str
       |> Utils.escape_prefix()
@@ -41,7 +42,9 @@ defmodule Ramona.Commands.Basic do
 
   Cogs.set_parser(:sayin, &List.wrap/1)
   Cogs.def sayin(s) do
-    if message.author.id != Cache.user.id do
+    if message.author.id != Cache.user.id
+    and Utils.invite_match?(message.content) == nil
+    do
       case String.split(s, "|", parts: 2) |> Enum.map(&String.trim/1) do
         [time, msg] ->
           sec = Utils.time_in_seconds(String.split(time))
