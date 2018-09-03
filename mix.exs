@@ -23,6 +23,7 @@ defmodule Ramona.MixProject do
       {:css_colors, "~> 0.2.0"},
       {:mogrify_draw, "~> 0.1.0"},
       {:floki, "~> 0.20.0"},
+      {:cowsay, github: "bbrock25/cowsay"},
       {:alchemy, github: "appositum/alchemy", branch: "development"}
     ]
   end
