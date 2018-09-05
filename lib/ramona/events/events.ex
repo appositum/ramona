@@ -6,7 +6,6 @@ defmodule Ramona.Events do
   require Logger
   require Alchemy.Cogs, as: Cogs
 
-  @appos "146367028968554496"
   @moderation_cat "430410176328368150"
 
   Events.on_ready(:ready)
