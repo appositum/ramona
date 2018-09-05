@@ -2,10 +2,12 @@ defmodule Ramona.Utils do
   @moduledoc """
   Collection of functions to serve as tools for some Cogs.
   """
+  alias Alchemy.Client
   require Alchemy.Embed, as: Embed
 
   @ansuz "429110513117429780"
   @eihwaz "429111918297612298"
+  @unleashed_gid "429110044525592578"
 
   @type color_hex :: String.t()
 

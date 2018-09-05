@@ -8,7 +8,6 @@ defmodule Ramona.Events do
 
   @appos "146367028968554496"
   @moderation_cat "430410176328368150"
-  @unleashed_gid "429110044525592578"
 
   Events.on_ready(:ready)
   Events.on_message(:everyone)
