@@ -4,6 +4,9 @@ defmodule Ramona.Utils do
   """
   require Alchemy.Embed, as: Embed
 
+  @ansuz "429110513117429780"
+  @eihwaz "429111918297612298"
+
   @type color_hex :: String.t()
 
   def uptime do
@@ -135,5 +138,17 @@ defmodule Ramona.Utils do
   def invite_match?(str) do
     Regex.run(~r{discord\.gg\/[a-zA-Z0-9]*}, str) ||
     Regex.run(~r{discordapp\.com\/invite\/[a-zA-Z0-9]*}, str)
+  end
+
+  @spec not_a_mod(String.t()) :: boolean
+  def not_a_mod(user_id) do
+    {:ok, member} = Client.get_member(@unleashed_gid, user_id)
+    @ansuz not in member.roles and @eihwaz not in member.roles
+  end
+
+  @spec not_an_admin(String.t()) :: boolean
+  def not_an_admin(user_id) do
+    {:ok, member} = Client.get_member(@unleashed_gid, user_id)
+    @ansuz not in member.roles or user_id != @appos
   end
 end
