@@ -2,7 +2,7 @@ defmodule Ramona.Events do
   @moduledoc false
   use Alchemy.Events
   alias Ramona.Utils
-  alias Alchemy.{Cache, Client, Utils}
+  alias Alchemy.{Cache, Client}
   require Logger
   require Alchemy.Cogs, as: Cogs
 
