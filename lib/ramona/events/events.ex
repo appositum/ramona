@@ -6,11 +6,7 @@ defmodule Ramona.Events do
   require Logger
   require Alchemy.Cogs, as: Cogs
 
-  @appos "146367028968554496"
-  @ansuz "429110513117429780"
-  @eihwaz "429111918297612298"
   @moderation_cat "430410176328368150"
-  @unleashed_gid "429110044525592578"
 
   Events.on_ready(:ready)
   Events.on_message(:everyone)
@@ -45,7 +41,7 @@ defmodule Ramona.Events do
 
   def everyone(message) do
     if message.author.id != Cache.user.id
-    and not_an_admin(message.author.id)
+    and Utils.not_an_admin(message.author.id)
     do
       patt = :binary.compile_pattern(["@everyone", "@here"])
 
@@ -61,7 +57,7 @@ defmodule Ramona.Events do
       {:ok, channel} = Client.get_channel(message.channel_id)
 
       if message.author.id != Cache.user.id
-      and not_a_mod(message.author.id)
+      and Utils.not_a_mod(message.author.id)
       and channel.parent_id != @moderation_cat
       do
         with {:ok, nil} <- Client.delete_message(message) do
@@ -76,15 +72,5 @@ defmodule Ramona.Events do
         end
       end
     end
-  end
-
-  defp not_a_mod(user_id) do
-    {:ok, member} = Client.get_member(@unleashed_gid, user_id)
-    @ansuz not in member.roles and @eihwaz not in member.roles
-  end
-
-  defp not_an_admin(user_id) do
-    {:ok, member} = Client.get_member(@unleashed_gid, user_id)
-    @ansuz not in member.roles or user_id != @appos
   end
 end

@@ -174,9 +174,9 @@ defmodule Ramona.Commands.Basic do
     end
   end
 
-  Cogs.set_parser(:pirateclub, &List.wrap/1)
-  Cogs.def pirateclub(_) do
-    Cogs.say "https://discord.gg/3zgQC3t"
+  Cogs.set_parser(:thieves, &List.wrap/1)
+  Cogs.def thieves(_) do
+    Cogs.say "https://discord.gg/jWjTmf8"
   end
 
   defp xkcd_comic?(number) do
@@ -260,5 +260,13 @@ defmodule Ramona.Commands.Basic do
   Cogs.set_parser(:top, &List.wrap/1)
   Cogs.def top(_) do
     Cogs.say "<:topkk1:486252311279304714><:topkk2:486252311325310976><:topkk3:486252311312859137><:topkk4:486252311459659816><:topkk5:486252311434231810>"
+  end
+
+  Cogs.set_parser(:flip, &List.wrap/1)
+  Cogs.def flip(choices) do
+    String.split(choices, "|", trim: true)
+    |> Enum.map(&String.trim/1)
+    |> Enum.random()
+    |> Cogs.say()
   end
 end
