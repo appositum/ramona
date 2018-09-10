@@ -269,4 +269,9 @@ defmodule Ramona.Commands.Basic do
     |> Enum.random()
     |> Cogs.say()
   end
+
+  Cogs.set_parser(:chupapito, &List.wrap/1)
+  Cogs.def chupapito(_) do
+    Cogs.say "ala tento chupar o proprio pito kkkkkkkkkkkkkkkk"
+  end
 end
