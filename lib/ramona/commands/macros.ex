@@ -26,7 +26,7 @@ defmodule Ramona.Commands.Macros do
 
   Cogs.def wrapmini(_) do
     wrap = "**Substitua `haskell` por java, cpp, python, etc."
-      <> "Não deve haver espaços entre os acentos e o nome da linguagem.**"
+      <> " Não deve haver espaços entre os acentos e o nome da linguagem.**"
       <> "\n\n\\`\\`\\`haskell\n"
       <> "safeHead :: SafeList a NonEmpty -> a\n\\`\\`\\`\n"
       <> "```haskell\n"
