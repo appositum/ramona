@@ -272,6 +272,7 @@ defmodule Ramona.Commands.Basic do
 
   Cogs.set_parser(:chupapito, &List.wrap/1)
   Cogs.def chupapito(_) do
+    {:ok, nil} = Client.delete_message(message)
     Cogs.say "ala tento chupar o proprio pito kkkkkkkkkkkkkkkk"
   end
 end
