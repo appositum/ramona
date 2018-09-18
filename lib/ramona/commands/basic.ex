@@ -176,7 +176,7 @@ defmodule Ramona.Commands.Basic do
 
   Cogs.set_parser(:thieves, &List.wrap/1)
   Cogs.def thieves(_) do
-    Cogs.say "https://discord.gg/jWjTmf8"
+    Cogs.say "https://discord.gg/tX8a2mD"
   end
 
   defp xkcd_comic?(number) do
