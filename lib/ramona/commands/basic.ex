@@ -263,6 +263,10 @@ defmodule Ramona.Commands.Basic do
   end
 
   Cogs.set_parser(:flip, &List.wrap/1)
+  Cogs.def flip("") do
+    Cogs.say Enum.random(["heads", "tails"])
+  end
+
   Cogs.def flip(choices) do
     String.split(choices, "|", trim: true)
     |> Enum.map(&String.trim/1)
