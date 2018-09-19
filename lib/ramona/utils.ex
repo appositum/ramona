@@ -12,6 +12,7 @@ defmodule Ramona.Utils do
   @unleashed_gid "429110044525592578"
 
   @type color_hex :: String.t()
+  @type message :: String.t()
 
   def uptime do
     {time, _} = :erlang.statistics(:wall_clock)
@@ -142,6 +143,12 @@ defmodule Ramona.Utils do
   def invite_match?(str) do
     Regex.run(~r{discord\.gg\/[a-zA-Z0-9]*}, str) ||
     Regex.run(~r{discordapp\.com\/invite\/[a-zA-Z0-9]*}, str)
+  end
+
+  @spec catch_invites(%Regex{}, message) :: list
+  def catch_invites(patt, message) do
+    Regex.scan(patt, message)
+    |> Enum.flat_map(& &1)
   end
 
   @spec not_a_mod(String.t()) :: boolean

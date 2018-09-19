@@ -176,7 +176,7 @@ defmodule Ramona.Commands.Basic do
 
   Cogs.set_parser(:thieves, &List.wrap/1)
   Cogs.def thieves(_) do
-    Cogs.say "https://discord.gg/jWjTmf8"
+    Cogs.say "https://discord.gg/tX8a2mD"
   end
 
   defp xkcd_comic?(number) do
@@ -263,6 +263,10 @@ defmodule Ramona.Commands.Basic do
   end
 
   Cogs.set_parser(:flip, &List.wrap/1)
+  Cogs.def flip("") do
+    Cogs.say Enum.random(["heads", "tails"])
+  end
+
   Cogs.def flip(choices) do
     String.split(choices, "|", trim: true)
     |> Enum.map(&String.trim/1)
@@ -272,6 +276,7 @@ defmodule Ramona.Commands.Basic do
 
   Cogs.set_parser(:chupapito, &List.wrap/1)
   Cogs.def chupapito(_) do
+    {:ok, nil} = Client.delete_message(message)
     Cogs.say "ala tento chupar o proprio pito kkkkkkkkkkkkkkkk"
   end
 end
