@@ -158,10 +158,18 @@ defmodule Ramona.Commands.Basic do
 
   Cogs.set_parser(:reverse, &List.wrap/1)
   Cogs.def reverse(msg) do
-    msg
-    |> String.reverse()
-    |> Utils.escape_prefix()
-    |> Cogs.say()
+    patt = :binary.compile_pattern(["@everyone", "@here"])
+
+    if message.author.id != Cache.user.id
+    and not String.contains?(message.content, patt)
+    and Utils.invite_match?(message.content) == nil
+    and Utils.invite_match?(String.reverse message.content) == nil
+    do
+      msg
+      |> String.reverse()
+      |> Utils.escape_prefix()
+      |> Cogs.say()
+    end
   end
 
   Cogs.set_parser(:invite, &List.wrap/1)
