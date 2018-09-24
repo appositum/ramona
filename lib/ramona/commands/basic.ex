@@ -278,6 +278,7 @@ defmodule Ramona.Commands.Basic do
   Cogs.def flip(choices) do
     String.split(choices, "|", trim: true)
     |> Enum.map(&String.trim/1)
+    |> Enum.filter(& Utils.invite_match?(&1) == nil)
     |> Enum.random()
     |> Cogs.say()
   end
