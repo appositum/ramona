@@ -7,6 +7,7 @@ defmodule Ramona.Events do
   require Alchemy.Cogs, as: Cogs
 
   @invite_log "430374864906354710"
+  @unleashed_gid "429110044525592578"
   @moderation_cat "430410176328368150"
 
   Events.on_ready(:ready)
@@ -54,7 +55,9 @@ defmodule Ramona.Events do
   end
 
   def block_invites(message) do
-    if Utils.invite_match?(message.content) do
+    if Utils.invite_match?(message.content)
+    and on_main_server?(message)
+    do
       {:ok, channel} = Client.get_channel(message.channel_id)
 
       if message.author.id != Cache.user.id
@@ -93,5 +96,10 @@ defmodule Ramona.Events do
         end
       end
     end
+  end
+
+  defp on_main_server?(message) do
+    {:ok, chans} = Client.get_channels(@unleashed_gid)
+    message.channel_id in Enum.map(chans, & &1.id)
   end
 end
