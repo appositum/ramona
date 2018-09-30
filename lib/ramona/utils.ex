@@ -141,8 +141,8 @@ defmodule Ramona.Utils do
 
   @spec invite_match?(String.t()) :: nil | boolean
   def invite_match?(str) do
-    Regex.run(~r{discord\.gg\/[a-zA-Z0-9]*}, str) ||
-    Regex.run(~r{discordapp\.com\/invite\/[a-zA-Z0-9]*}, str)
+    Regex.match?(~r{discord\.gg\/[a-zA-Z0-9]*}, str) ||
+    Regex.match?(~r{discordapp\.com\/invite\/[a-zA-Z0-9]*}, str)
   end
 
   @spec catch_invites(%Regex{}, message) :: list

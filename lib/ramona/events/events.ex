@@ -21,11 +21,6 @@ defmodule Ramona.Events do
     Logger.info("Ramona is ready!")
   end
 
-  defp on_main_server?(message) do
-    {:ok, chans} = Client.get_channels(@unleashed_gid)
-    message.channel_id in Enum.map(chans, & &1.id)
-  end
-
   def command_log(message) do
     prefix = Application.fetch_env!(:ramona, :prefix)
 
@@ -101,5 +96,10 @@ defmodule Ramona.Events do
         end
       end
     end
+  end
+
+  defp on_main_server?(message) do
+    {:ok, chans} = Client.get_channels(@unleashed_gid)
+    message.channel_id in Enum.map(chans, & &1.id)
   end
 end
