@@ -32,13 +32,23 @@ defmodule Ramona.Commands.Random do
   end
 
   Cogs.def dog do
-    image =
-      HTTPoison.get!("https://random.dog/woof.json").body
+    image_link = request_dog("https://random.dog/woof.json")
+
+    %Embed{}
+    |> Embed.image(image_link)
+    |> Embed.send()
+  end
+
+  defp request_dog(link) do
+    url =
+      HTTPoison.get!(link).body
       |> Poison.decode!()
       |> Map.get("url")
 
-    %Embed{}
-    |> Embed.image(image)
-    |> Embed.send()
+    if Regex.match?(~r/.*\.(jpg|png|gif)/, url) do
+      url
+    else
+      request_dog(link)
+    end
   end
 end
