@@ -150,7 +150,7 @@ defmodule Ramona.Commands.Basic do
       case arg do
         "police" -> "polar_bear_police.gif"
         "socks" -> "polar_bear_socks.gif"
-	"birthday" -> "polar_bear_birthday.gif"
+        "birthday" -> "polar_bear_birthday.gif"
         _ -> "polar_bear.gif"
       end
 
