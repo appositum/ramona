@@ -43,7 +43,7 @@ defmodule Ramona.Commands.Basic do
   Cogs.set_parser(:sayin, &List.wrap/1)
   Cogs.def sayin(s) do
     if message.author.id != Cache.user.id
-    and Utils.invite_match?(message.content) == nil
+    and Utils.invite_match?(message.content)
     do
       case String.split(s, "|", parts: 2) |> Enum.map(&String.trim/1) do
         [time, msg] ->
