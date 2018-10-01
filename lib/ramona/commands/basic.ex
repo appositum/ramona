@@ -21,7 +21,7 @@ defmodule Ramona.Commands.Basic do
 
     if message.author.id != Cache.user.id
     and not String.contains?(message.content, patt)
-    and Utils.invite_match?(message.content) == nil
+    and Utils.invite_match?(message.content)
     do
       str
       |> Utils.escape_prefix()
@@ -162,8 +162,8 @@ defmodule Ramona.Commands.Basic do
 
     if message.author.id != Cache.user.id
     and not String.contains?(message.content, patt)
-    and Utils.invite_match?(message.content) == nil
-    and Utils.invite_match?(String.reverse message.content) == nil
+    and Utils.invite_match?(message.content)
+    and Utils.invite_match?(String.reverse message.content) 
     do
       msg
       |> String.reverse()
@@ -278,7 +278,7 @@ defmodule Ramona.Commands.Basic do
   Cogs.def flip(choices) do
     String.split(choices, "|", trim: true)
     |> Enum.map(&String.trim/1)
-    |> Enum.filter(& Utils.invite_match?(&1) == nil)
+    |> Enum.filter(& Utils.invite_match?(&1))
     |> Enum.random()
     |> Cogs.say()
   end
