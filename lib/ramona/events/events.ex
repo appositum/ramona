@@ -55,7 +55,7 @@ defmodule Ramona.Events do
   end
 
   def block_invites(message) do
-    if Utils.invite_match?(message.content)
+    if Utils.invite_match?(message.content);
     and on_main_server?(message)
     do
       {:ok, channel} = Client.get_channel(message.channel_id)
