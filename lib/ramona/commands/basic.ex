@@ -148,10 +148,14 @@ defmodule Ramona.Commands.Basic do
 
     file =
       case arg do
+        "angery" -> "polar_bear_angery.gif"
+        "birthday" -> "polar_bear_birthday.gif"
+        "cyclope" -> "polar_bear_cyclope.gif"
+        "gang" -> "polar_bear_gang.gif"
         "police" -> "polar_bear_police.gif"
         "socks" -> "polar_bear_socks.gif"
-        "birthday" -> "polar_bear_birthday.gif"
-        "gang" -> "polar_bear_gang.gif"
+        "sunglasses" -> "polar_bear_sunglasses.gif"
+        "swim" -> "polar_bear_swim.gif"
         _ -> "polar_bear.gif"
       end
 
