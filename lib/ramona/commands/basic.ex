@@ -144,8 +144,6 @@ defmodule Ramona.Commands.Basic do
 
   Cogs.set_parser(:polar, &List.wrap/1)
   Cogs.def polar(arg) do
-    {:ok, nil} = Client.delete_message(message)
-
     file =
       case arg do
         "angery" -> "polar_bear_angery.gif"
