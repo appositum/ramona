@@ -20,8 +20,8 @@ defmodule Ramona.Commands.Basic do
     patt = :binary.compile_pattern(["@everyone", "@here"])
 
     if message.author.id != Cache.user.id
-    and not String.contains?(message.content, patt)
-    and Utils.invite_match?(message.content)
+    and !Utils.invite_match?(message.content)
+    and !String.contains?(message.content, patt)
     do
       str
       |> Utils.escape_prefix()
@@ -43,7 +43,7 @@ defmodule Ramona.Commands.Basic do
   Cogs.set_parser(:sayin, &List.wrap/1)
   Cogs.def sayin(s) do
     if message.author.id != Cache.user.id
-    and Utils.invite_match?(message.content)
+    and !Utils.invite_match?(message.content)
     do
       case String.split(s, "|", parts: 2) |> Enum.map(&String.trim/1) do
         [time, msg] ->
@@ -164,8 +164,8 @@ defmodule Ramona.Commands.Basic do
 
     if message.author.id != Cache.user.id
     and not String.contains?(message.content, patt)
-    and Utils.invite_match?(message.content)
-    and Utils.invite_match?(String.reverse message.content)
+    and !Utils.invite_match?(message.content)
+    and !Utils.invite_match?(String.reverse message.content)
     do
       msg
       |> String.reverse()
@@ -280,7 +280,7 @@ defmodule Ramona.Commands.Basic do
   Cogs.def flip(choices) do
     String.split(choices, "|", trim: true)
     |> Enum.map(&String.trim/1)
-    |> Enum.filter(&Utils.invite_match?/1)
+    |> Enum.filter(& !Utils.invite_match?(&1))
     |> Enum.random()
     |> Cogs.say()
   end
