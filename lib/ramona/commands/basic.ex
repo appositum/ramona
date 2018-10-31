@@ -186,11 +186,6 @@ defmodule Ramona.Commands.Basic do
     end
   end
 
-  Cogs.set_parser(:thieves, &List.wrap/1)
-  Cogs.def thieves(_) do
-    Cogs.say "https://discord.gg/tX8a2mD"
-  end
-
   defp xkcd_comic?(number) do
     case HTTPoison.get("https://xkcd.com/#{number}") do
       {:ok, res} -> res.status_code != 404
