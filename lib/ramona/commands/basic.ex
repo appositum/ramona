@@ -82,8 +82,8 @@ defmodule Ramona.Commands.Basic do
   end
 
   Cogs.def mixcolors(hex1, hex2) do
-    with {:ok, color1} <- Utils.parse_color(hex1, false, true),
-         {:ok, color2} <- Utils.parse_color(hex2, false, true)
+    with {:ok, color1} <- Utils.parse_color(hex1, true, true),
+         {:ok, color2} <- Utils.parse_color(hex2, true, true)
     do
       hash = Utils.gen_hash()
 
