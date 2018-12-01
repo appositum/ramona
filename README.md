@@ -7,7 +7,7 @@
 [![Elixir](https://img.shields.io/badge/elixir-%E2%89%A51.5-75397d.svg)](https://elixir-lang.org/)
 [![Alchemy](https://img.shields.io/badge/alchemy-0.6.1-A56FBD.svg)](https://github.com/cronokirby/alchemy)
 <br>
-**OBS:** This bot is specific to a single server and there is a lot of hardcoded stuff. Don't expect it to work on your server. This bot is shit anyways, though.
+**OBS:** This bot is specific to a single server and there is a lot of hardcoded stuff. Don't expect it to work on yours (it's a shitty bot anyway, though).
 <br>
 ### Setup
 ```bash
