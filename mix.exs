@@ -4,8 +4,8 @@ defmodule Ramona.MixProject do
   def project do
     [
       app: :ramona,
-      version: "0.1.6",
-      elixir: "~> 1.5",
+      version: "0.1.7",
+      elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
@@ -20,11 +20,11 @@ defmodule Ramona.MixProject do
 
   defp deps do
     [
-      {:css_colors, "~> 0.2.0"},
-      {:mogrify_draw, "~> 0.1.0"},
-      {:floki, "~> 0.20.0"},
+      {:css_colors, "~> 0.2.2"},
+      {:mogrify_draw, "~> 0.1.1"},
+      {:floki, "~> 0.31.0"},
       {:cowsay, github: "bbrock25/cowsay"},
-      {:alchemy, github: "appositum/alchemy", branch: "development"}
+      {:alchemy, github: "appositum/alchemy", branch: "own"}
     ]
   end
 end

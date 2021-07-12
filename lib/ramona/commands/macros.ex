@@ -19,7 +19,7 @@ defmodule Ramona.Commands.Macros do
       <> "<ul style=\"list-style:none;\"><li>Cappucino</li></ul>\n\\`\\`\\`"
       <> "\nPara enviar:\n"
       <> "```html\n<ul style=\"list-style:none;\"><li>Cappucino</li></ul>\n```"
-      <> "\nNão confunda o acento grave (\\`) com apóstrofo (')!}"
+      <> "\nNão confunda o acento grave (\\`) com apóstrofo (')!"
 
     Cogs.say(wrap)
   end
@@ -36,7 +36,7 @@ defmodule Ramona.Commands.Macros do
   end
 
   Cogs.def xyproblem(_) do
-    xy = "**O problem XY**"
+    xy = "**O problema XY**"
       <> "\nPerguntar sobre a sua tentativa de solução ao invés de perguntar sobre o real problema. (<http://xyproblem.info/>)\n"
 
       <> "\n**Exemplo 1**\n"
