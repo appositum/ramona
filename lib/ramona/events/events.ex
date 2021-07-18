@@ -42,9 +42,8 @@ defmodule Ramona.Events do
   end
 
   def everyone(message) do
-    if message.author.id != Cache.user.id
-    and Utils.not_an_admin(message.author.id)
-    do
+    if message.author.id != Cache.user().id and
+         Utils.not_an_admin(message.author.id) do
       patt = :binary.compile_pattern(["@everyone", "@here"])
 
       if String.contains?(message.content, patt) do
@@ -55,15 +54,13 @@ defmodule Ramona.Events do
   end
 
   def block_invites(message) do
-    if Utils.invite_match?(message.content)
-    and on_main_server?(message)
-    do
+    if Utils.invite_match?(message.content) and
+         on_main_server?(message) do
       {:ok, channel} = Client.get_channel(message.channel_id)
 
-      if message.author.id != Cache.user.id
-      and Utils.not_a_mod(message.author.id)
-      and channel.parent_id != @moderation_cat
-      do
+      if message.author.id != Cache.user().id and
+           Utils.not_a_mod(message.author.id) and
+           channel.parent_id != @moderation_cat do
         msg = message.content
         author_username = message.author.username
         author_discrim = message.author.discriminator
@@ -75,18 +72,17 @@ defmodule Ramona.Events do
 
           invites =
             with inv1 <- Utils.catch_invites(patt1, msg),
-                 inv2 <- Utils.catch_invites(patt2, msg)
-            do
-              inv1 ++ inv2
-              |> Enum.map(& "  - `#{&1}`")
+                 inv2 <- Utils.catch_invites(patt2, msg) do
+              (inv1 ++ inv2)
+              |> Enum.map(&"  - `#{&1}`")
               |> Enum.join("\n")
             end
 
           warning =
-            "Blocked invite in <##{channel.id}> from "
-            <> "`#{author_username}##{author_discrim}` "
-            <> "(#{author_id}):\n"
-            <> invites
+            "Blocked invite in <##{channel.id}> from " <>
+              "`#{author_username}##{author_discrim}` " <>
+              "(#{author_id}):\n" <>
+              invites
 
           Logger.warn(warning)
 
