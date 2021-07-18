@@ -6,7 +6,7 @@ defmodule Ramona.Commands.Basic do
   require Logger
   require Alchemy.Embed, as: Embed
 
-  @appos "146367028968554496"
+  @appo "146367028968554496"
 
   Cogs.def ping do
     old = Time.utc_now()
@@ -32,7 +32,7 @@ defmodule Ramona.Commands.Basic do
   Cogs.set_parser(:saydel, &List.wrap/1)
 
   Cogs.def saydel(str) do
-    if message.author.id == @appos do
+    if message.author.id == @appo do
       Client.delete_message(message)
 
       str

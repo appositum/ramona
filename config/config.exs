@@ -10,4 +10,4 @@ config :alchemy,
 config :ramona,
   token: System.get_env("TOKEN"),
   prefix: System.get_env("COMMAND_PREFIX") || ";",
-  invite: "https://discord.gg/cTHuPFC"
+  invite: System.get_env("INVITE")
