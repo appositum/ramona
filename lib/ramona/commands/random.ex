@@ -17,14 +17,7 @@ defmodule Ramona.Commands.Random do
   end
 
   Cogs.def cat do
-    image_tag =
-      HTTPoison.get!("http://random.cat/view/#{Enum.random(1..1677)}").body
-      |> Floki.parse()
-      |> Floki.find("img#cat")
-      |> Enum.at(0)
-
-    {_tag, info, _} = image_tag
-    {_, image_link} = Enum.find(info, &match?({"src", _}, &1))
+    image_link = request_animal("https://aws.random.cat/meow", "file")
 
     %Embed{}
     |> Embed.image(image_link)
@@ -40,15 +33,19 @@ defmodule Ramona.Commands.Random do
   end
 
   defp request_dog(link) do
-    url =
-      HTTPoison.get!(link).body
-      |> Poison.decode!()
-      |> Map.get("url")
+    url = request_animal(link, "url")
 
+    # ignore video files
     if Regex.match?(~r/.*\.(jpg|png|gif)/, url) do
       url
     else
       request_dog(link)
     end
+  end
+
+  defp request_animal(link, json_attribute_name) do
+    HTTPoison.get!(link).body
+    |> Poison.decode!()
+    |> Map.get(json_attribute_name)
   end
 end
