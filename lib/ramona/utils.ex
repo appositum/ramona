@@ -96,7 +96,7 @@ defmodule Ramona.Utils do
   @spec gen_hash :: String.t()
   def gen_hash do
     salt = fn x ->
-      :crypto.hash(:md5, "#{x + Enum.random 1..60000}")
+      :crypto.hash(:md5, "#{x + Enum.random(1..60000)}")
     end
 
     DateTime.utc_now()
@@ -142,7 +142,7 @@ defmodule Ramona.Utils do
   @spec invite_match?(String.t()) :: nil | boolean
   def invite_match?(str) do
     Regex.match?(~r{discord\.gg\/[a-zA-Z0-9]*}, str) ||
-    Regex.match?(~r{discordapp\.com\/invite\/[a-zA-Z0-9]*}, str)
+      Regex.match?(~r{discordapp\.com\/invite\/[a-zA-Z0-9]*}, str)
   end
 
   @spec catch_invites(%Regex{}, message) :: list
@@ -156,8 +156,9 @@ defmodule Ramona.Utils do
     case Client.get_member(@unleashed_gid, user_id) do
       {:ok, member} ->
         @ansuz not in member.roles and @eihwaz not in member.roles
+
       {:error, reason} ->
-        Logger.warn "Couldn't get member for #{user_id} (mod check):\n #{reason}"
+        Logger.warn("Couldn't get member for #{user_id} (mod check):\n #{reason}")
         false
     end
   end
@@ -167,8 +168,9 @@ defmodule Ramona.Utils do
     case Client.get_member(@unleashed_gid, user_id) do
       {:ok, member} ->
         @ansuz not in member.roles or user_id != @appos
+
       {:error, reason} ->
-        Logger.warn "Couldn't get member for #{user_id} (admin check):\n  #{reason}"
+        Logger.warn("Couldn't get member for #{user_id} (admin check):\n  #{reason}")
         false
     end
   end
