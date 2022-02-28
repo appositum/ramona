@@ -21,6 +21,8 @@ defmodule Ramona.MixProject do
   defp deps do
     [
       {:css_colors, "~> 0.2.2"},
+      {:floki, "~> 0.32.0"},
+      {:html_entities, "~> 0.5"},
       {:mogrify_draw, "~> 0.1.1"},
       {:poison, "~> 4.0.1"},
       {:cowsay, github: "bbrock25/cowsay"},

@@ -29,5 +29,6 @@ defmodule Ramona do
     use Ramona.Commands.Macros
     use Ramona.Commands.Random
     use Ramona.Commands.Moderation
+    use Ramona.Commands.XVideos
   end
 end

@@ -35,8 +35,7 @@ defmodule Ramona.Events do
         username = message.author.username
         tag = message.author.discriminator
 
-        ~s/Command "#{message.content}" called by <@#{id}> (#{username}##{tag})/
-        |> Logger.info()
+        Logger.info(~s/Command "#{message.content}" called by <@#{id}> (#{username}##{tag})/)
       end
     end
   end
