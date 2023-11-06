@@ -256,4 +256,9 @@ defmodule Ramona.Commands.Basic do
     "```\n#{Cowsay.say(s)}```"
     |> Cogs.say()
   end
+
+  Cogs.set_parser(:top, &List.wrap/1)
+  Cogs.def top(_) do
+    Cogs.say "<:topkk1:486252311279304714><:topkk2:486252311325310976><:topkk3:486252311312859137><:topkk4:486252311459659816><:topkk5:486252311434231810>"
+  end
 end
