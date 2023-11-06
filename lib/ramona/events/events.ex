@@ -26,7 +26,7 @@ defmodule Ramona.Events do
     if String.starts_with?(message.content, prefix) do
       command =
         with m <- message.content |> String.split() |> List.first() do
-          String.slice(m, 2, String.length(m))
+          String.slice(m, String.length(prefix), String.length(m))
         end
 
       if command in Map.keys(Cogs.all_commands()) do
