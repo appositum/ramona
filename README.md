@@ -2,6 +2,7 @@
 ### You're not alone. You're just having some idiotic dream.
 
 ## Installation
+Make sure to have the `TOKEN` variable set inside `.env`.
 
 ```bash
 git clone https://github.com/appositum/ramona.git
