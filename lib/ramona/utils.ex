@@ -84,4 +84,16 @@ defmodule Ramona.Utils do
     |> Embed.field("HSL", hsl)
     |> Embed.thumbnail("attachment://color.jpg")
   end
+
+  @spec gen_hash :: String.t()
+  def gen_hash do
+    salt = fn x ->
+      :crypto.hash(:md5, "#{x + Enum.random 1..60000}")
+    end
+
+    DateTime.utc_now()
+    |> DateTime.to_unix()
+    |> salt.()
+    |> Base.encode16()
+  end
 end
