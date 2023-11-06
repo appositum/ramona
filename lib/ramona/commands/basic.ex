@@ -8,6 +8,7 @@ defmodule Ramona.Commands.Basic do
   Cogs.set_parser(:say, &List.wrap/1)
   Cogs.set_parser(:sayin, &List.wrap/1)
   Cogs.set_parser(:bigtext, &List.wrap/1)
+  Cogs.set_parser(:polar, &List.wrap/1)
 
   Cogs.def ping do
     old = Time.utc_now()
@@ -114,5 +115,18 @@ defmodule Ramona.Commands.Basic do
     end)
     |> Enum.join()
     |> Cogs.say()
+  end
+
+  Cogs.def polar(arg) do
+    {:ok, nil} = Client.delete_message(message)
+
+    file =
+      case arg do
+        "police" -> "polar_bear_police.gif"
+        "socks" -> "polar_bear_socks.gif"
+        _ -> "polar_bear.gif"
+      end
+
+    Client.send_message(message.channel_id, "", file: "lib/ramona/assets/#{file}")
   end
 end
