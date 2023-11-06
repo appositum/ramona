@@ -2,7 +2,6 @@ defmodule Ramona.Profile do
   @moduledoc """
   Update the bot's profile picture and colors used on embedded messages and its own role.
   """
-  alias Alchemy.Client
 
   @colors_path "lib/assets/colors/"
   @profile_path "lib/assets/.profile.json"
@@ -22,6 +21,9 @@ defmodule Ramona.Profile do
     |> Map.get("number")
   end
 
+  @doc """
+  Generates a new profile with a randomized color and avatar.
+  """
   def update_file do
     # {"color", "path/to/color/"}
     {color_name, color_folder} =
