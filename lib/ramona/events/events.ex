@@ -1,11 +1,14 @@
 defmodule Ramona.Events do
   @moduledoc false
   use Alchemy.Events
+  alias Ramona.Profile
   alias Alchemy.{Cache, Cogs}
   require Logger
 
   Events.on_ready(:ready)
   def ready(_, _) do
+    Profile.update_file()
+
     me = "#{Cache.user.username}##{Cache.user.discriminator} (#{Cache.user.id})"
     Logger.info("Logged in as #{me}")
     Logger.info("Ramona is ready!")
