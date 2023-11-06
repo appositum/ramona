@@ -5,6 +5,10 @@ defmodule Ramona.Commands.Basic do
   alias Ramona.Utils
   require Alchemy.Embed, as: Embed
 
+  Cogs.set_parser(:say, &List.wrap/1)
+  Cogs.set_parser(:sayin, &List.wrap/1)
+  Cogs.set_parser(:bigtext, &List.wrap/1)
+
   Cogs.def ping do
     old = Time.utc_now()
     {:ok, message} = Cogs.say("Pong!")
@@ -15,23 +19,21 @@ defmodule Ramona.Commands.Basic do
   @doc """
   Say something!
   """
-  Cogs.set_parser(:say, &List.wrap/1)
   Cogs.def say(s) do
     Cogs.say(s)
   end
 
-  Cogs.set_parser(:sayin, &List.wrap/1)
   Cogs.def sayin(s) do
     case String.split(s, "|") |> Enum.map(&String.trim/1) do
       [time, msg] ->
         sec = Utils.time_in_seconds(String.split(time))
 
-        Task.start fn ->
+        Task.start(fn ->
           Process.sleep(sec * 1000)
           Cogs.say(msg)
-        end
+        end)
 
-        Cogs.say ~s(I will say "#{msg}" in #{sec} seconds)
+        Cogs.say(~s(I will say "#{msg}" in #{sec} seconds))
 
       _ ->
         Cogs.say("Syntax error")
@@ -47,8 +49,12 @@ defmodule Ramona.Commands.Basic do
 
     color =
       cond do
-        Regex.match?(pattern1, hex) -> hex
-        Regex.match?(pattern2, hex) -> "#" <> hex
+        Regex.match?(pattern1, hex) ->
+          hex
+
+        Regex.match?(pattern2, hex) ->
+          "#" <> hex
+
         true ->
           # named colors
           case CssColors.parse(hex) do
@@ -60,6 +66,7 @@ defmodule Ramona.Commands.Basic do
     case color do
       :error ->
         Cogs.say(":exclamation: **Invalid color**")
+
       color ->
         Utils.color_embed(color)
         |> Embed.send("", file: "lib/ramona/assets/color.jpg")
@@ -68,7 +75,6 @@ defmodule Ramona.Commands.Basic do
     end
   end
 
-  Cogs.set_parser(:bigtext, &List.wrap/1)
   Cogs.def bigtext(text) do
     {:ok, nil} = Client.delete_message(message)
 
@@ -77,6 +83,7 @@ defmodule Ramona.Commands.Basic do
     |> Enum.map(&String.downcase/1)
     |> Enum.map(fn char ->
       letters = String.graphemes("abcdefghijklmnopqrstuvwxyz")
+
       cond do
         char == " " -> "     "
         char in letters -> ":regional_indicator_#{char}:"
@@ -88,11 +95,16 @@ defmodule Ramona.Commands.Basic do
     |> String.graphemes()
     |> Enum.map(fn char ->
       numbers = %{
-        "0" => ":zero:",  "1" => ":one:",
-        "2" => ":two:",   "3" => ":three:",
-        "4" => ":four:",  "5" => ":five:",
-        "6" => ":six:",   "7" => ":seven:",
-        "8" => ":eight:", "9" => ":nine:"
+        "0" => ":zero:",
+        "1" => ":one:",
+        "2" => ":two:",
+        "3" => ":three:",
+        "4" => ":four:",
+        "5" => ":five:",
+        "6" => ":six:",
+        "7" => ":seven:",
+        "8" => ":eight:",
+        "9" => ":nine:"
       }
 
       cond do

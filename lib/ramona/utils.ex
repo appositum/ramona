@@ -47,6 +47,7 @@ defmodule Ramona.Utils do
     case length(list) do
       6 ->
         list
+
       _ ->
         hex_digit = Enum.random(0..15) |> Integer.to_charlist(16)
         color_random([hex_digit | list])
@@ -55,11 +56,12 @@ defmodule Ramona.Utils do
 
   @spec color_embed(color_hex) :: %Alchemy.Embed{}
   def color_embed(color_hex) do
-    color = CssColors.parse!(color_hex) # color struct
+    # color struct
+    color = CssColors.parse!(color_hex)
 
-    hue = trunc CssColors.hsl(color).hue
-    lightness = trunc CssColors.hsl(color).lightness * 100
-    saturation = trunc CssColors.hsl(color).saturation * 100
+    hue = trunc(CssColors.hsl(color).hue)
+    lightness = trunc(CssColors.hsl(color).lightness * 100)
+    saturation = trunc(CssColors.hsl(color).saturation * 100)
     hsl = "#{hue}, #{lightness}%, #{saturation}%"
     rgb = "#{trunc(color.red)}, #{trunc(color.green)}, #{trunc(color.blue)}"
 
@@ -74,7 +76,9 @@ defmodule Ramona.Utils do
         String.slice(c, 1, String.length(c))
       end
 
-    {color_integer, _} = Code.eval_string("0x#{color_hex}") # color number for the embed
+    # color number for the embed
+    {color_integer, _} = Code.eval_string("0x#{color_hex}")
+
     %Embed{color: color_integer, title: to_string(color)}
     |> Embed.field("RGB", rgb)
     |> Embed.field("HSL", hsl)
