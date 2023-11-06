@@ -166,7 +166,7 @@ defmodule Ramona.Commands.Basic do
     end
   end
 
-  Cogs.set_parser(:invite, &List.wrap/1)
+  Cogs.set_parser(:pirateclub, &List.wrap/1)
   Cogs.def pirateclub(_) do
     Cogs.say "https://discord.gg/3zgQC3t"
   end
