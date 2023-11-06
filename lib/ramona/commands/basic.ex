@@ -68,8 +68,9 @@ defmodule Ramona.Commands.Basic do
       :error ->
         Cogs.say(":exclamation: **Invalid color**")
 
-      color ->
-        Utils.color_embed(color)
+      {:ok, color} ->
+        color
+        |> Utils.color_embed(hash)
         |> Embed.send("", file: "lib/ramona/assets/#{hash}.jpg")
 
         File.rm("lib/ramona/assets/#{hash}.jpg")
