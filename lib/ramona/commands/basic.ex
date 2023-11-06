@@ -5,11 +5,12 @@ defmodule Ramona.Commands.Basic do
   alias Ramona.Utils
   require Alchemy.Embed, as: Embed
 
-  Cogs.set_parser(:say, &List.wrap/1)
-  Cogs.set_parser(:sayin, &List.wrap/1)
+  Cogs.set_parser(:say,     &List.wrap/1)
+  Cogs.set_parser(:sayin,   &List.wrap/1)
   Cogs.set_parser(:bigtext, &List.wrap/1)
-  Cogs.set_parser(:polar, &List.wrap/1)
+  Cogs.set_parser(:polar,   &List.wrap/1)
   Cogs.set_parser(:reverse, &List.wrap/1)
+  Cogs.set_parser(:invite,  &List.wrap/1)
 
   Cogs.def ping do
     old = Time.utc_now()
