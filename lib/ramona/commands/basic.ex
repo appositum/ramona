@@ -49,11 +49,24 @@ defmodule Ramona.Commands.Basic do
   Get info about a specific color.
   """
   Cogs.def color(hex \\ "") do
+    hash = Utils.gen_hash()
+
+    case parse_color(hex, true, true) do
+      :error ->
+        Cogs.say(":exclamation: **Invalid color**")
+
+      color ->
+        Utils.color_embed(color)
+        |> Embed.send("", file: "lib/ramona/assets/#{hash}.jpg")
+
+        File.rm("lib/ramona/assets/#{hash}.jpg")
+    end
+  end
+
   defp parse_color(hex, named_color?, hashtag?) do
     pattern1 = ~r/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
     pattern2 = ~r/^([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
 
-    color =
       cond do
         Regex.match?(pattern1, hex) ->
           hex
@@ -70,16 +83,6 @@ defmodule Ramona.Commands.Basic do
         else
           :error
       end
-
-    case color do
-      :error ->
-        Cogs.say(":exclamation: **Invalid color**")
-
-      color ->
-        Utils.color_embed(color)
-        |> Embed.send("", file: "lib/ramona/assets/color.jpg")
-
-        File.rm("lib/ramona/assets/color.jpg")
     end
   end
 
