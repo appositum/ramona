@@ -67,8 +67,13 @@ defmodule Ramona.Commands.Moderation do
         {:ok, guild_id} = Cogs.guild_id()
         {:ok, roles} = Client.get_roles(guild_id)
 
+        dot_roles = Enum.filter(roles, & &1.name == ".")
+        for r <- dot_roles do
+          {:ok, nil} = Client.delete_role(guild_id, r.id)
+        end
+
         {:ok, new_role} = Client.create_role(guild_id, name: ".", color: Profile.color())
-        {:ok, _} = Client.add_role(guild_id, user.id, new_role.id)
+        {:ok, nil} = Client.add_role(guild_id, user.id, new_role.id)
 
         Cogs.say("Profile successfully changed!")
 
