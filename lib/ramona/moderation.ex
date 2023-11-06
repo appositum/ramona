@@ -1,18 +1,19 @@
 defmodule Ramona.Commands.Moderation do
   @moduledoc false
   use Alchemy.Cogs
-  alias Ramona.Utils
-  alias Alchemy.{Cache, Client, User}
+  alias Alchemy.Client
+  alias Ramona.{Profile, Utils}
   require Alchemy.Embed, as: Embed
 
-  @random_color 0x01B6AD
+  @embed_color Profile.update_color()
+  @profile_avatar Profile.update_avatar()
 
   Cogs.def help do
     commands = Cogs.all_commands()
     |> Map.keys()
     |> Enum.join("\n")
 
-    %Embed{color: @random_color, description: commands}
+    %Embed{color: @embed_color, description: commands}
     |> Embed.title("All available commands")
     |> Embed.send()
   end
@@ -50,11 +51,11 @@ defmodule Ramona.Commands.Moderation do
       {"IO Output", mem_format.(io_output, :mb)}
     ]
 
-    Enum.reduce(infos, %Embed{color: @random_color}, fn {n, v}, embed ->
+    Enum.reduce(infos, %Embed{color: @embed_color}, fn {n, v}, embed ->
       Embed.field(embed, n, v, inline: true)
     end)
     |> Embed.title("Ramona")
-    |> Embed.thumbnail(User.avatar_url(Cache.user) |> String.replace("jpg", "png"))
+    |> Embed.thumbnail(@profile_avatar)
     |> Embed.url("https://github.com/appositum/ramona")
     |> Embed.footer(text: "Uptime: #{Utils.uptime()}")
     |> Embed.send()

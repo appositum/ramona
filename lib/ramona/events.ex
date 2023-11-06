@@ -1,11 +1,28 @@
 defmodule Ramona.Events do
   @moduledoc false
   use Alchemy.Events
-  alias Alchemy.{Cache, Cogs}
+  alias Ramona.Profile
+  alias Alchemy.{Cache, Client, Cogs}
   require Logger
 
   Events.on_ready(:ready)
   def ready(_, _) do
+    Profile.update_file()
+
+    Task.start fn ->
+      case Client.edit_profile(avatar: Profile.update_avatar()) do
+        {:ok, new_user} ->
+          Logger.info("Client avatar successfully changed\nNew user: #{inspect(new_user)}")
+
+        {:error, reason} ->
+          [reason] = reason
+          |> Poison.decode!()
+          |> Map.get("avatar")
+
+          Logger.error("Could not change client's profile: #{reason}")
+      end
+    end
+
     me = "#{Cache.user.username}##{Cache.user.discriminator} (#{Cache.user.id})"
     Logger.info("Logged in as #{me}")
     Logger.info("Ramona is ready!")
