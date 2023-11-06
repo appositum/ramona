@@ -3,8 +3,10 @@ defmodule Ramona.Utils do
   Collection of functions to serve as tools for some Cogs.
   """
   alias Alchemy.Client
+  require Logger
   require Alchemy.Embed, as: Embed
 
+  @appos "146367028968554496"
   @ansuz "429110513117429780"
   @eihwaz "429111918297612298"
   @unleashed_gid "429110044525592578"
@@ -144,13 +146,23 @@ defmodule Ramona.Utils do
 
   @spec not_a_mod(String.t()) :: boolean
   def not_a_mod(user_id) do
-    {:ok, member} = Client.get_member(@unleashed_gid, user_id)
-    @ansuz not in member.roles and @eihwaz not in member.roles
+    case Client.get_member(@unleashed_gid, user_id) do
+      {:ok, member} ->
+        @ansuz not in member.roles and @eihwaz not in member.roles
+      {:error, reason} ->
+        Logger.warn "Couldn't get member (mod check):\n\t#{reason}"
+        false
+    end
   end
 
   @spec not_an_admin(String.t()) :: boolean
   def not_an_admin(user_id) do
-    {:ok, member} = Client.get_member(@unleashed_gid, user_id)
-    @ansuz not in member.roles or user_id != @appos
+    case Client.get_member(@unleashed_gid, user_id) do
+      {:ok, member} ->
+        @ansuz not in member.roles or user_id != @appos
+      {:error, reason} ->
+        Logger.warn "Couldn't get member (admin check):\n\t#{reason}"
+        false
+    end
   end
 end
