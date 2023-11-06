@@ -14,19 +14,7 @@ defmodule Ramona.Events.Macros do
     "<:striking9:442018991297396746>"
   ]
 
-  Events.on_message(:pito)
   Events.on_message(:striking)
-
-  def pito(message) do
-    content = "ala tento chupar o proprio pito kkkkkkkkkkkkkkkk"
-    trigger = "you can't star your own messages!"
-
-    if String.contains?(message.content, trigger)
-    and message.author.id == "349626729226305537"
-    do
-      Client.send_message(message.channel_id, content)
-    end
-  end
 
   def striking(message) do
     if String.contains?(message.content, "striking")
