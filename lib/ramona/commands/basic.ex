@@ -32,6 +32,8 @@ defmodule Ramona.Commands.Basic do
           Cogs.say(msg)
         end
 
+        Cogs.say ~s(I will say "#{msg}" in #{sec} seconds)
+
       _ ->
         Cogs.say("Syntax error")
     end
