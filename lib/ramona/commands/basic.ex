@@ -155,7 +155,10 @@ defmodule Ramona.Commands.Basic do
 
   Cogs.set_parser(:reverse, &List.wrap/1)
   Cogs.def reverse(msg) do
-    Cogs.say String.reverse(msg)
+    msg
+    |> String.reverse()
+    |> Utils.escape_prefix()
+    |> Cogs.say()
   end
 
   Cogs.set_parser(:invite, &List.wrap/1)
