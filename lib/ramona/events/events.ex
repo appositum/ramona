@@ -5,12 +5,14 @@ defmodule Ramona.Events do
   require Logger
   require Alchemy.Cogs, as: Cogs
 
+  @appos "146367028968554496"
   @ansuz "429110513117429780"
   @eihwaz "429111918297612298"
   @moderation_cat "430410176328368150"
   @unleashed_gid "429110044525592578"
 
   Events.on_ready(:ready)
+  Events.on_message(:everyone)
   Events.on_message(:command_log)
   Events.on_message(:block_invites)
 
@@ -40,12 +42,25 @@ defmodule Ramona.Events do
     end
   end
 
+  def everyone(message) do
+    if message.author.id != Cache.user.id
+    and not_an_admin(message.author.id)
+    do
+      patt = :binary.compile_pattern(["@everyone", "@here"])
+
+      if String.contains?(message.content, patt) do
+        police = "lib/ramona/assets/polar_bear_police.gif"
+        Client.send_message(message.channel_id, "***STOP***", file: police)
+      end
+    end
+  end
+
   def block_invites(message) do
     if invite_match?(message.content) do
       {:ok, channel} = Client.get_channel(message.channel_id)
 
       if message.author.id != Cache.user.id
-      and no_invite_permission(message.author.id)
+      and not_a_mod(message.author.id)
       and channel.parent_id != @moderation_cat
       do
         with {:ok, nil} <- Client.delete_message(message) do
@@ -67,8 +82,13 @@ defmodule Ramona.Events do
     Regex.run(~r{discordapp\.com\/invite\/[a-zA-Z0-9]*}, str)
   end
 
-  defp no_invite_permission(user_id) do
+  defp not_a_mod(user_id) do
     {:ok, member} = Client.get_member(@unleashed_gid, user_id)
     @ansuz not in member.roles and @eihwaz not in member.roles
+  end
+
+  defp not_an_admin(user_id) do
+    {:ok, member} = Client.get_member(@unleashed_gid, user_id)
+    @ansuz not in member.roles or user_id != @appos
   end
 end
