@@ -162,9 +162,14 @@ defmodule Ramona.Commands.Basic do
       {:ok, invite} ->
         Cogs.say(invite)
         :error ->
-        Cogs.say("There's no invite set")
-      end
+          Cogs.say("There's no invite set")
     end
+  end
+
+  Cogs.set_parser(:invite, &List.wrap/1)
+  Cogs.def pirateclub(_) do
+    Cogs.say "https://discord.gg/3zgQC3t"
+  end
 
   defp xkcd_comic?(number) do
     case HTTPoison.get("https://xkcd.com/#{number}") do
