@@ -61,27 +61,4 @@ defmodule Ramona.Commands.Moderation do
     |> Embed.footer(text: "Uptime: #{Utils.uptime()}")
     |> Embed.send()
   end
-
-  # Cogs.def regras do
-  #   Client.delete_message(message)
-
-  #   %Embed{}
-  #   |> Embed.color(@embed_color)
-  #   |> Embed.title("Regras")
-  #   |> Embed.field("1. Canais", "Leia as descrições dos canais e tente manter o tópico adequado.")
-  #   |> Embed.field("\n\n2. Sem divulgação", "ta ok respeitar")
-  #   |> Embed.send()
-  # end
-
-  # Cogs.def cargos do
-  #   Client.delete_message(message)
-
-  #   %Embed{}
-  #   |> Embed.color(@embed_color)
-  #   |> Embed.title("Cargos")
-  #   |> Embed.field("ᚫ Ansuz", "Administradores", inline: true)
-  #   |> Embed.field("ᛇ Eihwaz", "Moderadores", inline: true)
-  #   |> Embed.field("ᛗ Mannaz", "Membro", inline: true)
-  #   |> Embed.send()
-  # end
 end
