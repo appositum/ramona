@@ -8,9 +8,9 @@ American expatriate ninja courier (age unknown).
 
 ### Setup
 ```bash
+$ export TOKEN="your discord bot token"
 $ git clone https://github.com/appositum/ramona.git
 $ cd ramona/
-$ export TOKEN="your discord bot token"
 $ mix deps.get && mix run --no-halt
 # or run in interactive mode
 $ mix deps.get && iex -S mix
