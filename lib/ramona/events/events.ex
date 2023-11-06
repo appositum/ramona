@@ -44,9 +44,9 @@ defmodule Ramona.Events do
     if Regex.run(~r{discord\.gg\/[a-zA-Z0-9]*}, message.content) do
       {:ok, channel} = Client.get_channel(message.channel_id)
 
-      IO.inspect no_permission(message.author.id)
-      if no_permission(message.author.id)
-      and (channel.parent_id != @moderation_cat or message.author.id != Cache.user.id)
+      if message.author.id != Cache.user.id
+      and no_permission(message.author.id)
+      and channel.parent_id != @moderation_cat
       do
         with {:ok, nil} <- Client.delete_message(message) do
           "Blocked invite in ##{channel.name} (#{channel.id}) from "
