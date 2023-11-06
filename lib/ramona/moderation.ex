@@ -61,38 +61,38 @@ defmodule Ramona.Commands.Moderation do
   end
 
   # TODO
-  Cogs.def kick(user) do
-    {:ok, guild} = Cogs.guild()
-    user_id = Regex.replace(~r{<|@|>}, user, "")
+  # Cogs.def kick(user) do
+  #   {:ok, guild} = Cogs.guild()
+  #   user_id = Regex.replace(~r{<|@|>}, user, "")
 
-    Client.kick_member(guild.id, user_id)
-    Client.delete_message(message)
-  end
+  #   Client.kick_member(guild.id, user_id)
+  #   Client.delete_message(message)
+  # end
 
   # TODO
-  Cogs.def ban(user, days \\ 0) do
-    {:ok, guild} = Cogs.guild()
-    user_id = Regex.replace(~r{<|@|>}, user, "")
+  # Cogs.def ban(user, days \\ 0) do
+  #   {:ok, guild} = Cogs.guild()
+  #   user_id = Regex.replace(~r{<|@|>}, user, "")
 
-    Client.ban_member(guild.id, user_id, days)
-    Client.delete_message(message)
-  end
+  #   Client.ban_member(guild.id, user_id, days)
+  #   Client.delete_message(message)
+  # end
 
-  Cogs.def prune(quantity \\ "") do
-    case Integer.parse(quantity) do
-      {n, _} ->
-        task = Task.async fn ->
-          {:ok, msgs} = Client.get_messages(message.channel_id, limit: n+1)
-          Client.delete_messages(message.channel_id, msgs)
-          ":wastebasket: | **#{message.author.username}** deleted #{n} messages in this channel!"
-        end
+  # Cogs.def prune(quantity \\ "") do
+  #   case Integer.parse(quantity) do
+  #     {n, _} ->
+  #       task = Task.async fn ->
+  #         {:ok, msgs} = Client.get_messages(message.channel_id, limit: n+1)
+  #         Client.delete_messages(message.channel_id, msgs)
+  #         ":wastebasket: | **#{message.author.username}** deleted #{n} messages in this channel!"
+  #       end
 
-        {:ok, msg} = Client.send_message(message.channel_id, Task.await(task))
-        Process.sleep(3000)
-        Client.delete_message(msg)
+  #       {:ok, msg} = Client.send_message(message.channel_id, Task.await(task))
+  #       Process.sleep(3000)
+  #       Client.delete_message(msg)
 
-      :error ->
-        Cogs.say(":exclamation: **You need to specify a number of messages to delete!**")
-    end
-  end
+  #     :error ->
+  #       Cogs.say(":exclamation: **You need to specify a number of messages to delete!**")
+  #   end
+  # end
 end
