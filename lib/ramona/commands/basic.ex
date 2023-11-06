@@ -1,9 +1,12 @@
 defmodule Ramona.Commands.Basic do
   @moduledoc false
   use Alchemy.Cogs
-  alias Ramona.Utils
+  alias Ramona.{Reminder, Utils}
   alias Alchemy.Client
   require Alchemy.Embed, as: Embed
+
+  Cogs.set_parser(:say, &List.wrap/1)
+  Cogs.set_parser(:sayin, &List.wrap/1)
 
   Cogs.def ping do
     old = Time.utc_now()
@@ -15,8 +18,24 @@ defmodule Ramona.Commands.Basic do
   @doc """
   Say something!
   """
-  Cogs.set_parser(:say, &List.wrap/1)
-  Cogs.def say(s), do: Cogs.say(s)
+  Cogs.def say(s) do
+    Cogs.say(s)
+  end
+
+  Cogs.def sayin(s) do
+    case String.split(s, "|") |> Enum.map(&String.trim/1) do
+      [msg, time] ->
+        sec = Reminder.time_in_seconds(String.split(time))
+
+        Task.start fn ->
+          Process.sleep(sec * 1000)
+          Cogs.say(msg)
+        end
+
+      _ ->
+        Cogs.say("Syntax error")
+    end
+  end
 
   @doc """
   Get info about a specific color.
