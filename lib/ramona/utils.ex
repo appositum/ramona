@@ -157,7 +157,7 @@ defmodule Ramona.Utils do
       {:ok, member} ->
         @ansuz not in member.roles and @eihwaz not in member.roles
       {:error, reason} ->
-        Logger.warn "Couldn't get member (mod check):\n\t#{reason}"
+        Logger.warn "Couldn't get member for #{user_id} (mod check):\n #{reason}"
         false
     end
   end
@@ -168,7 +168,7 @@ defmodule Ramona.Utils do
       {:ok, member} ->
         @ansuz not in member.roles or user_id != @appos
       {:error, reason} ->
-        Logger.warn "Couldn't get member (admin check):\n\t#{reason}"
+        Logger.warn "Couldn't get member for #{user_id} (admin check):\n  #{reason}"
         false
     end
   end
