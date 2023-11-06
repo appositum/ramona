@@ -1,8 +1,8 @@
 defmodule Ramona.Commands.Basic do
   @moduledoc false
   use Alchemy.Cogs
-  alias Ramona.{Reminder, Utils}
   alias Alchemy.Client
+  alias Ramona.Utils
   require Alchemy.Embed, as: Embed
 
   Cogs.set_parser(:say, &List.wrap/1)
@@ -25,7 +25,7 @@ defmodule Ramona.Commands.Basic do
   Cogs.def sayin(s) do
     case String.split(s, "|") |> Enum.map(&String.trim/1) do
       [time, msg] ->
-        sec = Reminder.time_in_seconds(String.split(time))
+        sec = Utils.time_in_seconds(String.split(time))
 
         Task.start fn ->
           Process.sleep(sec * 1000)
