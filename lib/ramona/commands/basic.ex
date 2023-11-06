@@ -40,19 +40,21 @@ defmodule Ramona.Commands.Basic do
 
   Cogs.set_parser(:sayin, &List.wrap/1)
   Cogs.def sayin(s) do
-    case String.split(s, "|") |> Enum.map(&String.trim/1) do
-      [time, msg] ->
-        sec = Utils.time_in_seconds(String.split(time))
+    if message.author.id != Cache.user.id do
+      case String.split(s, "|", parts: 2) |> Enum.map(&String.trim/1) do
+        [time, msg] ->
+          sec = Utils.time_in_seconds(String.split(time))
 
-        Task.start fn ->
-          Process.sleep(sec * 1000)
-          Cogs.say(msg)
-        end
+          Task.start fn ->
+            Process.sleep(sec * 1000)
+            Cogs.say(msg)
+          end
 
-        Cogs.say ~s/I will say "#{msg}" in #{sec} seconds/
+          Cogs.say ~s/I will say "#{msg}" in #{sec} seconds/
 
-      _ ->
-        Cogs.say("Syntax error")
+        _ ->
+          Cogs.say("Syntax error")
+      end
     end
   end
 
