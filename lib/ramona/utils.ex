@@ -4,6 +4,8 @@ defmodule Ramona.Utils do
   """
   require Alchemy.Embed, as: Embed
 
+  @type color_hex :: String.t()
+
   def uptime do
     {time, _} = :erlang.statistics(:wall_clock)
     min = div(time, 1000 * 60)
@@ -34,6 +36,7 @@ defmodule Ramona.Utils do
       iex> Thonk.Utils.color_random()
       "FCFB5E"
   """
+  @spec color_random() :: color_hex
   def color_random do
     color_random([])
     |> Enum.map(&to_string/1)
@@ -50,7 +53,7 @@ defmodule Ramona.Utils do
     end
   end
 
-  @spec color_embed(String.t) :: %Embed{}
+  @spec color_embed(color_hex) :: %Alchemy.Embed{}
   def color_embed(color_hex) do
     color = CssColors.parse!(color_hex) # color struct
 
