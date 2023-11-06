@@ -8,6 +8,7 @@ defmodule Ramona.Events do
   @ansuz "429110513117429780"
   @eihwaz "429111918297612298"
   @moderation_cat "430410176328368150"
+  @unleashed_gid "429110044525592578"
 
   Events.on_ready(:ready)
   Events.on_message(:command_log)
@@ -40,38 +41,29 @@ defmodule Ramona.Events do
   end
 
   def block_invites(message) do
-    {:ok, channel} = Client.get_channel(message.channel_id)
+    if Regex.run(~r{discord\.gg\/[a-zA-Z0-9]*}, message.content) do
+      {:ok, channel} = Client.get_channel(message.channel_id)
 
-    unless message.author.id == Cache.user.id
-    or channel.parent_id == @moderation_cat
-    do
-      {:ok, guild_id} = Cogs.guild_id()
+      IO.inspect no_permission(message.author.id)
+      if no_permission(message.author.id)
+      and (channel.parent_id != @moderation_cat or message.author.id != Cache.user.id)
+      do
+        with {:ok, nil} <- Client.delete_message(message) do
+          "Blocked invite in ##{channel.name} (#{channel.id}) from "
+          <> "#{message.author.username}##{message.author.discriminator} "
+          <> "(#{message.author.id})"
+          |> Logger.warn()
 
-      case Client.get_member(guild_id, message.author.id) do
-        {:error, reason} ->
-          "Tried to fetch user (possibly a bot) "
-          <> "<@#{message.author.id}>, but failed:\n#{reason}"
-          |> Logger.error()
-
-        {:ok, member} ->
-          if no_permission(member)
-          and Regex.run(~r{discord\.gg\/[a-zA-Z0-9]*}, message.content) do
-            with {:ok, channel} <- Alchemy.Client.get_channel(message.channel_id),
-                 {:ok, nil} <- Alchemy.Client.delete_message(message)
-            do
-              "Blocked invite in ##{channel.name} (#{channel.id}) from "
-              <> "#{message.author.username}##{message.author.discriminator} "
-              <> "(#{message.author.id})"
-              |> Logger.warn()
-            else
-              err -> Logger.error(err)
-            end
-          end
+          Client.send_message(message.channel_id, "<:blaze:441076828594241537>")
+        else
+          err -> Logger.error(err)
+        end
       end
     end
   end
 
-  defp no_permission(member) do
+  defp no_permission(user_id) do
+    {:ok, member} = Client.get_member(@unleashed_gid, user_id)
     @ansuz not in member.roles and @eihwaz not in member.roles
   end
 end
