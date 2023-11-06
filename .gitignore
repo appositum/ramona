@@ -24,4 +24,4 @@ ramona-*.tar
 .vscode/
 /TODO
 /.env*
-lib/assets/.profile.json
+lib/ramona/assets/.profile.json
