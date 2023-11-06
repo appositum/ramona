@@ -4,7 +4,7 @@ defmodule Ramona.MixProject do
   def project do
     [
       app: :ramona,
-      version: "0.1.7",
+      version: "0.1.8",
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
       deps: deps()
