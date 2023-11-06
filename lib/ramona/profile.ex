@@ -9,13 +9,13 @@ defmodule Ramona.Profile do
   @github "https://raw.githubusercontent.com/appositum/ramona/colors/"
   @colors Application.fetch_env!(:ramona, :colors)
 
-  def update_avatar do
+  def avatar do
     File.read!(@profile_path)
     |> Poison.decode!()
     |> Map.get("picture")
   end
 
-  def update_color do
+  def color do
     File.read!(@profile_path)
     |> Poison.decode!()
     |> Map.get("color")

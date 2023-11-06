@@ -5,15 +5,12 @@ defmodule Ramona.Commands.Moderation do
   alias Ramona.{Profile, Utils}
   require Alchemy.Embed, as: Embed
 
-  @embed_color Profile.update_color()
-  @profile_avatar Profile.update_avatar()
-
   Cogs.def help do
     commands = Cogs.all_commands()
     |> Map.keys()
     |> Enum.join("\n")
 
-    %Embed{color: @embed_color, description: commands}
+    %Embed{color: Profile.color(), description: commands}
     |> Embed.title("All available commands")
     |> Embed.send()
   end
@@ -51,11 +48,11 @@ defmodule Ramona.Commands.Moderation do
       {"IO Output", mem_format.(io_output, :mb)}
     ]
 
-    Enum.reduce(infos, %Embed{color: @embed_color}, fn {n, v}, embed ->
+    Enum.reduce(infos, %Embed{color: Profile.color()}, fn {n, v}, embed ->
       Embed.field(embed, n, v, inline: true)
     end)
     |> Embed.title("Ramona")
-    |> Embed.thumbnail(@profile_avatar)
+    |> Embed.thumbnail("https://i.pinimg.com/474x/38/20/b5/3820b57c4e29ee5006fdc25974fae98f.jpg")
     |> Embed.url("https://github.com/appositum/ramona")
     |> Embed.footer(text: "Uptime: #{Utils.uptime()}")
     |> Embed.send()
