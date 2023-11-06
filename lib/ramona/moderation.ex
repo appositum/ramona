@@ -67,7 +67,6 @@ defmodule Ramona.Commands.Moderation do
         {:ok, guild_id} = Cogs.guild_id()
         {:ok, roles} = Client.get_roles(guild_id)
 
-        role = Enum.find(roles, &match?("Ramona", &1.name))
         {:ok, new_role} = Client.create_role(guild_id, name: ".", color: Profile.color())
         {:ok, _} = Client.add_role(guild_id, user.id, new_role.id)
 
