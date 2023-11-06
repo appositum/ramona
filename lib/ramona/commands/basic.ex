@@ -49,6 +49,7 @@ defmodule Ramona.Commands.Basic do
   Get info about a specific color.
   """
   Cogs.def color(hex \\ "") do
+  defp parse_color(hex, named_color?, hashtag?) do
     pattern1 = ~r/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
     pattern2 = ~r/^([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
 
@@ -58,14 +59,16 @@ defmodule Ramona.Commands.Basic do
           hex
 
         Regex.match?(pattern2, hex) ->
-          "#" <> hex
+        if hashtag?, do: "#" <> hex, else: hex
 
         true ->
-          # named colors
+        if named_color? do
           case CssColors.parse(hex) do
             {:ok, _} -> hex
             {:error, _} -> :error
           end
+        else
+          :error
       end
 
     case color do
