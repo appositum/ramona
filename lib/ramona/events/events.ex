@@ -1,6 +1,7 @@
 defmodule Ramona.Events do
   @moduledoc false
   use Alchemy.Events
+  alias Ramona.Utils
   alias Alchemy.{Cache, Client}
   require Logger
   require Alchemy.Cogs, as: Cogs
@@ -56,7 +57,7 @@ defmodule Ramona.Events do
   end
 
   def block_invites(message) do
-    if invite_match?(message.content) do
+    if Utils.invite_match?(message.content) do
       {:ok, channel} = Client.get_channel(message.channel_id)
 
       if message.author.id != Cache.user.id
@@ -75,11 +76,6 @@ defmodule Ramona.Events do
         end
       end
     end
-  end
-
-  defp invite_match?(str) do
-    Regex.run(~r{discord\.gg\/[a-zA-Z0-9]*}, str) ||
-    Regex.run(~r{discordapp\.com\/invite\/[a-zA-Z0-9]*}, str)
   end
 
   defp not_a_mod(user_id) do
