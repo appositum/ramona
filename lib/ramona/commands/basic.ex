@@ -9,6 +9,7 @@ defmodule Ramona.Commands.Basic do
   Cogs.set_parser(:sayin, &List.wrap/1)
   Cogs.set_parser(:bigtext, &List.wrap/1)
   Cogs.set_parser(:polar, &List.wrap/1)
+  Cogs.set_parser(:reverse, &List.wrap/1)
 
   Cogs.def ping do
     old = Time.utc_now()
@@ -128,5 +129,9 @@ defmodule Ramona.Commands.Basic do
       end
 
     Client.send_message(message.channel_id, "", file: "lib/ramona/assets/#{file}")
+  end
+
+  Cogs.def reverse(msg) do
+    Cogs.say String.reverse(msg)
   end
 end
