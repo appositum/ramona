@@ -69,15 +69,21 @@ defmodule Ramona.Events do
         with {:ok, nil} <- Client.delete_message(message) do
           patt1 = ~r{discord\.gg\/[a-zA-Z0-9]*}
           patt2 = ~r{discordapp\.com\/invite\/[a-zA-Z0-9]*}
+
           invites =
             with inv1 <- Utils.catch_invites(patt1, msg),
-                 inv2 <- Utils.catch_invites(patt2, msg), do: inv1 ++ inv2
+                 inv2 <- Utils.catch_invites(patt2, msg)
+            do
+              inv1 ++ inv2
+              |> Enum.map(& "  - `#{&1}`")
+              |> Enum.join("\n")
+            end
 
           warning =
-            "Blocked invite in ##{channel.name} (#{channel.id}) from "
+            "Blocked invite in <##{channel.id}> from "
             <> "`#{author_username}##{author_discrim}` "
-            <> "(#{author_id}):"
-            <> ~s/\n\t#{Enum.join(invites, "\n")}/
+            <> "(#{author_id}):\n"
+            <> invites
 
           Logger.warn(warning)
 
