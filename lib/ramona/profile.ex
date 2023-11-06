@@ -5,7 +5,7 @@ defmodule Ramona.Profile do
 
   @colors_path "lib/ramona/assets/colors/"
   @profile_path "lib/ramona/assets/.profile.json"
-  @github "https://raw.githubusercontent.com/appositum/ramona/master/"
+  @github "https://raw.githubusercontent.com/appositum/ramona/development/"
   @colors Application.fetch_env!(:ramona, :colors)
 
   def avatar do
