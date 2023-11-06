@@ -6,6 +6,7 @@ defmodule Ramona.Events do
   require Logger
   require Alchemy.Cogs, as: Cogs
 
+  @invite_log "430374864906354710"
   @moderation_cat "430410176328368150"
 
   Events.on_ready(:ready)
@@ -60,15 +61,29 @@ defmodule Ramona.Events do
       and Utils.not_a_mod(message.author.id)
       and channel.parent_id != @moderation_cat
       do
-        with {:ok, nil} <- Client.delete_message(message) do
-          "Blocked invite in ##{channel.name} (#{channel.id}) from "
-          <> "#{message.author.username}##{message.author.discriminator} "
-          <> "(#{message.author.id})"
-          |> Logger.warn()
+        msg = message.content
+        author_username = message.author.username
+        author_discrim = message.author.discriminator
+        author_id = message.author.id
 
-          Client.send_message(message.channel_id, "<:blaze:441076828594241537>")
+        with {:ok, nil} <- Client.delete_message(message) do
+          patt1 = ~r{discord\.gg\/[a-zA-Z0-9]*}
+          patt2 = ~r{discordapp\.com\/invite\/[a-zA-Z0-9]*}
+          invites =
+            with inv1 <- Utils.catch_invites(patt1, msg),
+                 inv2 <- Utils.catch_invites(patt2, msg), do: inv1 ++ inv2
+
+          warning =
+            "Blocked invite in ##{channel.name} (#{channel.id}) from "
+            <> "`#{author_username}##{author_discrim}` "
+            <> "(#{author_id}):"
+            <> ~s/\n\t#{Enum.join(invites, "\n")}/
+
+          Logger.warn(warning)
+
+          Client.send_message(@invite_log, warning)
         else
-          err -> Logger.error(err)
+          {:error, reason} -> Logger.error(reason)
         end
       end
     end
