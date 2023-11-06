@@ -250,4 +250,10 @@ defmodule Ramona.Commands.Basic do
       end
     end
   end
+
+  Cogs.set_parser(:cowsay, &List.wrap/1)
+  Cogs.def cowsay(s) do
+    "```\n#{Cowsay.say(s)}```"
+    |> Cogs.say()
+  end
 end
